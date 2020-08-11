@@ -1,10 +1,10 @@
 from setuptools import setup
 setup(
-    name = 'helloworld-cli',
+    name = 'MyTodoCLI',
     version = '0.1.0',
-    packages = ['helloworld'],
+    packages = ['todo'],
     entry_points = {
         'console_scripts': [
-            'helloworld = helloworld.__main__:main'
+            'todo = todo.__main__:main'
         ]
     })
