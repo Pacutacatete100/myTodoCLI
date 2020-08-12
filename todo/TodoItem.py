@@ -1,13 +1,13 @@
 class Todo_Item:
-    def __init__(self, is_done, name, due_date, number, is_done_check):
+    def __init__(self, is_done, name, due_date, number, is_done_check='[ ]'):
         self.is_done = is_done
         self.name = name
         self.due_date = due_date
         self.number = number
-        self.is_done_check = '[ ]'
+        self.is_done_check = is_done_check if is_done_check is not None else '[ ]'
 
     def __str__(self):
-        return str(self.number) + '. ' + self.is_done_check + ' ' + self.name + ' is due ' + self.due_date
+        return str(self.number) + '. ' + self.is_done_check + ' ' + self.name + '. Due: ' + self.due_date
 
     def mark_as_completed(self):
         self.is_done_check = '[x]'
