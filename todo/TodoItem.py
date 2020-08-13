@@ -13,3 +13,7 @@ class Todo_Item:
     def mark_as_completed(self):
         self.is_done_check = '[x]'
         self.is_done = True
+
+    def mark_as_incomplete(self):
+        self.is_done_check = '[ ]'
+        self.is_done = False
