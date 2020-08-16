@@ -1,0 +1,27 @@
+[
+    {
+        "is_done": false,
+        "name": "fill up this list",
+        "number": 1,
+        "due_date": "tomorrow",
+        "class_name": "none",
+        "is_done_check": "[ ]"
+    },
+    {
+        "is_done": false,
+        "name": "another item for testing",
+        "number": 2,
+        "due_date": "tomorrow",
+        "class_name": "none",
+        "is_done_check": "[ ]"
+    
+    },
+    {
+        "is_done": false,
+        "name": "100 pushups",
+        "number": 3,
+        "due_date": "tomorrow",
+        "class_name": "none",
+        "is_done_check": "[ ]"
+    }
+]

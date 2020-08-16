@@ -2,11 +2,9 @@ import sys
 import click
 from TodoItem import Todo_Item
 import datetime
+import json
 
-todo_list = [Todo_Item(False, "Fill up this list", "tomorrow", 1), 
-             Todo_Item(False, "another item for testing", "tomorrow", 2),
-             Todo_Item(False, "100 pushups", "tomorrow", 3)
-            ]
+todo_list = Todo_Item.load_objects_from_json()
 
 def print_list():
     click.echo('--------------- TODO LIST ---------------')
@@ -50,6 +48,8 @@ def remove(num):
 def undone(num):
     number = int(num)
     todo_list[number - 1].mark_as_incomplete()
+    print_list()
+
 
 
 if __name__ == '__main__':
