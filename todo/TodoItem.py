@@ -22,12 +22,33 @@ class Todo_Item:
         self.is_done = False
         #! update json here
 
+    def add_to_json(self, item, file):
+
+        def write_json(data, file_name='todolist.json'):
+            with open(file_name, 'w') as f:
+                json.dump(data, f, indent=4)
+
+        with open('todolist.json') as json_file:
+
+            data = json.load(json_file)
+            temp = data['todoitems']
+            item_dict = item.__dict__
+            temp.append(item_dict)
+
+        write_json(data)
+
+        
+
+    # def remove_from_json(self):
+    #     #! update json here
+
+
     @classmethod
     def load_objects_from_json(cls): #makes json objects/dicts into python objects
         todo_list = []
         with open('todolist.json', 'r') as json_file:
             todo_items = json.loads(json_file.read())
-            for i in todo_items:
+            for i in todo_items['todoitems']:
                 todo_list.append(cls(**i))
         json_file.close()
         return todo_list

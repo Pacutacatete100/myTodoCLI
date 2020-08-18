@@ -25,7 +25,8 @@ def list():
 @click.option('--due', prompt=True)
 @click.option('--classname', prompt='Class Name')
 def add(item, due, classname):
-    todo_list.append(Todo_Item(False, item, due, len(todo_list) + 1, classname))
+    new_item = Todo_Item(False, item, due, len(todo_list) + 1, classname)
+    new_item.add_to_json(new_item, 'todolist.json')
     print_list()
 
 @main.command('done')
@@ -39,7 +40,8 @@ def done(num):
 @click.option('--num', prompt='Number of item you want to remove')
 def remove(num):
     number = int(num)
-    todo_list.remove(todo_list[number - 1])
+    todo_list.remove(todo_list[number - 1]) #! possibly remove this line to only update json and print list
+    #! fix this when your less tired
     #! make numbers shift to correct position
     print_list()
 
