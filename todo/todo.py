@@ -7,8 +7,9 @@ import json
 todo_list = Todo_Item.load_objects_from_json()
 
 def print_list():
+    new_list = Todo_Item.load_objects_from_json()
     click.echo('--------------- TODO LIST ---------------')
-    for ti in todo_list:
+    for ti in new_list:
         click.echo(ti)
     click.echo('')
 
@@ -41,8 +42,6 @@ def done(num):
 def remove(num):
     number = int(num)
     todo_list.remove(todo_list[number - 1]) #! possibly remove this line to only update json and print list
-    #! fix this when your less tired
-    #! make numbers shift to correct position
     print_list()
 
 @main.command('undone')
