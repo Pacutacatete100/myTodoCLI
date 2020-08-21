@@ -8,15 +8,8 @@
             "is_done_check": "[ ]"
         },
         {
-            "name": "another item for testing",
-            "number": 2,
-            "due_date": "tomorrow",
-            "class_name": "none",
-            "is_done_check": "[ ]"
-        },
-        {
             "name": "100 pushups",
-            "number": 3,
+            "number": 2,
             "due_date": "tomorrow",
             "class_name": "none",
             "is_done_check": "[ ]"
@@ -24,21 +17,21 @@
         {
             "name": "cum",
             "due_date": "today",
-            "number": 4,
+            "number": 3,
             "is_done_check": "[ ]",
             "class_name": "none"
         },
         {
             "name": "shit myself",
             "due_date": "tomorrow",
-            "number": 5,
+            "number": 4,
             "is_done_check": "[ ]",
             "class_name": "cs101"
         },
         {
-            "name": "change",
-            "due_date": "tomorrow",
-            "number": 6,
+            "name": "stay",
+            "due_date": "today",
+            "number": 5,
             "is_done_check": "[ ]",
             "class_name": "none"
         }

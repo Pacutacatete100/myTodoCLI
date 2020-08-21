@@ -26,7 +26,7 @@ def list():
 @click.option('--due', prompt=True)
 @click.option('--classname', prompt='Class Name')
 def add(item, due, classname):
-    new_item = Todo_Item(False, item, due, len(todo_list) + 1, classname)
+    new_item = Todo_Item(item, due, len(todo_list) + 1, class_name=classname)
     new_item.add_to_json(new_item, 'todolist.json')
     print_list()
 
@@ -41,7 +41,7 @@ def done(num):
 @click.option('--num', prompt='Number of item you want to remove')
 def remove(num):
     number = int(num)
-    todo_list.remove(todo_list[number - 1]) #! possibly remove this line to only update json and print list
+    todo_list[number - 1].remove_from_json(number)
     print_list()
 
 @main.command('undone')
@@ -51,6 +51,23 @@ def undone(num):
     todo_list[number - 1].mark_as_incomplete()
     print_list()
 
+@main.command('class')
+@click.option('--classname', prompt='class you want to sort by')
+def class_(classname):
+    click.echo('--------------- TODO LIST BY CLASS ---------------')
+    for i in todo_list:
+        if i.class_name == classname:
+            click.echo(i)
+    click.echo('')
+
+@main.command('date')
+@click.option('--duedate', prompt='due date you want to sort by')
+def date(duedate):
+    click.echo(f'--------------- DUE {duedate.upper()} ---------------')
+    for i in todo_list:
+        if i.due_date == duedate:
+            click.echo(i)
+    click.echo('')
 
 
 if __name__ == '__main__':

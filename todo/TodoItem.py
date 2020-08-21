@@ -1,7 +1,7 @@
 import json
 
 class Todo_Item:
-    def __init__(self, name, due_date, number, is_done_check='[ ]', class_name='misc' ):
+    def __init__(self, name, due_date, number, is_done_check='[ ]', class_name='none' ):
         self.name = name
         self.due_date = due_date
         self.number = number
@@ -9,7 +9,7 @@ class Todo_Item:
         self.class_name = class_name if class_name is not None else 'none'
 
     def __str__(self):
-        return f' {str(self.number)}. {self.is_done_check} {self.name}. Due: {self.due_date}. Class: {self.class_name}'
+        return f' {str(self.number)}. {self.is_done_check} {self.name.capitalize()}\n   Due: {self.due_date.capitalize()}, Class: {self.class_name.upper()}'
 
     def mark_as_completed(self):
 
@@ -33,7 +33,6 @@ class Todo_Item:
 
         with open('todolist.json', 'w') as json_file:
             json.dump(data, json_file, indent=4)
-        #! update json here
 
     def add_to_json(self, item, file):
         def write_json(data, file_name='todolist.json'):
@@ -47,8 +46,17 @@ class Todo_Item:
         write_json(data)
 
 
-    # def remove_from_json(self):
-    #     #! update json here
+    def remove_from_json(self, number):
+        with open('todolist.json') as json_file:
+            data = json.load(json_file)
+
+        for item in data['todoitems'][:]:
+            if item['number'] == self.number:
+                data['todoitems'].remove(item)
+
+        with open('todolist.json', 'w') as json_file:
+            data = json.dump(data, json_file, indent=4)
+        #! adjust numbers when removed
 
 
     @classmethod
@@ -60,4 +68,5 @@ class Todo_Item:
                 todo_list.append(cls(**i))
 
         return todo_list
+
 
