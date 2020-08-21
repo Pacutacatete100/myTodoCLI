@@ -3,6 +3,7 @@ import click
 from TodoItem import Todo_Item
 import datetime
 import json
+import calendar
 
 todo_list = Todo_Item.load_objects_from_json()
 
@@ -54,7 +55,7 @@ def undone(num):
 @main.command('class')
 @click.option('--classname', prompt='class you want to sort by')
 def class_(classname):
-    click.echo('--------------- TODO LIST BY CLASS ---------------')
+    click.echo(f'--------------- FOR {classname.upper()} ---------------')
     for i in todo_list:
         if i.class_name == classname:
             click.echo(i)
@@ -69,6 +70,21 @@ def date(duedate):
             click.echo(i)
     click.echo('')
 
+@main.command('today')
+def today():
+    click.echo('--------------- DUE TODAY ---------------')
+    for i in todo_list:
+        if i.due_date == 'today':
+            click.echo(i)
+    click.echo('')
+
+@main.command('tomorrow')
+def tomorrow():
+    click.echo('--------------- DUE TOMORROW ---------------')
+    for i in todo_list:
+        if i.due_date == 'tomorrow':
+            click.echo(i)
+    click.echo('')
 
 if __name__ == '__main__':
     main()
