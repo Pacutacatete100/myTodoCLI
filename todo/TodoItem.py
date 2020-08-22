@@ -53,7 +53,9 @@ class Todo_Item:
         for item in data['todoitems'][:]:
             if item['number'] == self.number:
                 data['todoitems'].remove(item)
-
+            if item['number'] > number:
+                item['number'] = item['number'] - 1
+        
         with open('todolist.json', 'w') as json_file:
             data = json.dump(data, json_file, indent=4)
         #! adjust numbers when removed

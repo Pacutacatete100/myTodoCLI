@@ -15,25 +15,11 @@
             "is_done_check": "[ ]"
         },
         {
-            "name": "cum",
+            "name": "push to gh",
             "due_date": "today",
             "number": 3,
             "is_done_check": "[ ]",
-            "class_name": "none"
-        },
-        {
-            "name": "shit myself",
-            "due_date": "tomorrow",
-            "number": 4,
-            "is_done_check": "[ ]",
             "class_name": "cs101"
-        },
-        {
-            "name": "stay",
-            "due_date": "today",
-            "number": 5,
-            "is_done_check": "[ ]",
-            "class_name": "none"
         }
     ]
 }

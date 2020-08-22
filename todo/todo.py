@@ -6,6 +6,7 @@ import json
 import calendar
 
 todo_list = Todo_Item.load_objects_from_json()
+current_year = datetime.date.today().year
 
 def print_list():
     new_list = Todo_Item.load_objects_from_json()
@@ -13,6 +14,7 @@ def print_list():
     for ti in new_list:
         click.echo(ti)
     click.echo('')
+    
 
 @click.group('todo')
 def main():
