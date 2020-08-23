@@ -58,8 +58,6 @@ class Todo_Item:
         
         with open('todolist.json', 'w') as json_file:
             data = json.dump(data, json_file, indent=4)
-        #! adjust numbers when removed
-
 
     @classmethod
     def load_objects_from_json(cls): #makes json objects/dicts into python objects

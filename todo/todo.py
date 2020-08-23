@@ -6,11 +6,16 @@ import json
 import calendar
 
 todo_list = Todo_Item.load_objects_from_json()
-current_year = datetime.date.today().year
+current_date = datetime.date.today()
+date_format_string = '%A %B %d %Y'
+tomorrow_ = current_date + datetime.timedelta(days = 1)
 
 def print_list():
     new_list = Todo_Item.load_objects_from_json()
-    click.echo('--------------- TODO LIST ---------------')
+    click.echo('')
+    click.echo('--------------- TODO LIST ------------------')
+    click.echo(f'----- TODAY IS {current_date.strftime(date_format_string).upper()} -----')
+    click.echo('')
     for ti in new_list:
         click.echo(ti)
     click.echo('')
@@ -57,6 +62,7 @@ def undone(num):
 @main.command('class')
 @click.option('--classname', prompt='class you want to sort by')
 def class_(classname):
+    click.echo('')
     click.echo(f'--------------- FOR {classname.upper()} ---------------')
     for i in todo_list:
         if i.class_name == classname:
@@ -66,6 +72,7 @@ def class_(classname):
 @main.command('date')
 @click.option('--duedate', prompt='due date you want to sort by')
 def date(duedate):
+    click.echo('')
     click.echo(f'--------------- DUE {duedate.upper()} ---------------')
     for i in todo_list:
         if i.due_date == duedate:
@@ -74,7 +81,10 @@ def date(duedate):
 
 @main.command('today')
 def today():
+    click.echo('')
     click.echo('--------------- DUE TODAY ---------------')
+    click.echo(f'----- TODAY IS {current_date.strftime(date_format_string).upper()} -----')
+    click.echo('')
     for i in todo_list:
         if i.due_date == 'today':
             click.echo(i)
@@ -82,7 +92,10 @@ def today():
 
 @main.command('tomorrow')
 def tomorrow():
+    click.echo('')
     click.echo('--------------- DUE TOMORROW ---------------')
+    click.echo(f'----- TOMORROW IS {tomorrow_.strftime(date_format_string).upper()} -----')
+    click.echo('')
     for i in todo_list:
         if i.due_date == 'tomorrow':
             click.echo(i)

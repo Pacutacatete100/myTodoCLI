@@ -15,11 +15,11 @@
             "is_done_check": "[ ]"
         },
         {
-            "name": "push to gh",
+            "name": "make this crap account for days",
             "due_date": "today",
             "number": 3,
             "is_done_check": "[ ]",
-            "class_name": "cs101"
+            "class_name": "none"
         }
     ]
 }
