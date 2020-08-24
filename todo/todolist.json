@@ -1,22 +1,22 @@
 {
     "todoitems": [
         {
-            "name": "fill up this list",
+            "name": "go to class tomorrow",
+            "due_date": "Monday August 24 2020",
             "number": 1,
-            "due_date": "tomorrow",
-            "class_name": "none",
-            "is_done_check": "[ ]"
+            "is_done_check": "[ ]",
+            "class_name": "business"
         },
         {
-            "name": "100 pushups",
+            "name": "do chapters 1.1 and 1.2",
+            "due_date": "Tuesday August 25 2020",
             "number": 2,
-            "due_date": "tomorrow",
-            "class_name": "none",
-            "is_done_check": "[ ]"
+            "is_done_check": "[ ]",
+            "class_name": "stats"
         },
         {
-            "name": "make this crap account for days",
-            "due_date": "today",
+            "name": "schedule json",
+            "due_date": "Monday August 24 2020",
             "number": 3,
             "is_done_check": "[ ]",
             "class_name": "none"

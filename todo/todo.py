@@ -4,21 +4,25 @@ from TodoItem import Todo_Item
 import datetime
 import json
 import calendar
+import dateparser
+
 
 todo_list = Todo_Item.load_objects_from_json()
 current_date = datetime.date.today()
 date_format_string = '%A %B %d %Y'
 tomorrow_ = current_date + datetime.timedelta(days = 1)
+current_weekday = current_date.strftime('%A')
+
+print(current_weekday)
 
 def print_list():
     new_list = Todo_Item.load_objects_from_json()
     click.echo('')
     click.echo('--------------- TODO LIST ------------------')
-    click.echo(f'----- TODAY IS {current_date.strftime(date_format_string).upper()} -----')
+    click.echo(f'----- TODAY IS: {current_date.strftime(date_format_string).upper()} -----')
     click.echo('')
     for ti in new_list:
         click.echo(ti)
-    click.echo('')
     
 
 @click.group('todo')
@@ -31,10 +35,11 @@ def list():
 
 @main.command('add')
 @click.option('--item', prompt=True)
-@click.option('--due', prompt=True)
+@click.option('--due', prompt='Due Date: mm-dd')
 @click.option('--classname', prompt='Class Name')
 def add(item, due, classname):
-    new_item = Todo_Item(item, due, len(todo_list) + 1, class_name=classname)
+    due_date = dateparser.parse(due).strftime(date_format_string)
+    new_item = Todo_Item(item, due_date, len(todo_list) + 1, class_name=classname)
     new_item.add_to_json(new_item, 'todolist.json')
     print_list()
 
@@ -67,39 +72,34 @@ def class_(classname):
     for i in todo_list:
         if i.class_name == classname:
             click.echo(i)
-    click.echo('')
 
 @main.command('date')
-@click.option('--duedate', prompt='due date you want to sort by')
+@click.option('--duedate', prompt='Date in mm-dd format')
 def date(duedate):
+    formatted_due_date = dateparser.parse(duedate).strftime(date_format_string)
     click.echo('')
-    click.echo(f'--------------- DUE {duedate.upper()} ---------------')
+    click.echo(f'--------------- DUE {formatted_due_date.upper()} ---------------')
     for i in todo_list:
-        if i.due_date == duedate:
+        if i.due_date == formatted_due_date:
             click.echo(i)
-    click.echo('')
 
 @main.command('today')
 def today():
     click.echo('')
-    click.echo('--------------- DUE TODAY ---------------')
-    click.echo(f'----- TODAY IS {current_date.strftime(date_format_string).upper()} -----')
+    click.echo(f'--------------- DUE TODAY, {current_date.strftime(date_format_string).upper()} ---------------')
     click.echo('')
     for i in todo_list:
-        if i.due_date == 'today':
+        if i.due_date == current_date.strftime(date_format_string):
             click.echo(i)
-    click.echo('')
 
 @main.command('tomorrow')
 def tomorrow():
     click.echo('')
-    click.echo('--------------- DUE TOMORROW ---------------')
-    click.echo(f'----- TOMORROW IS {tomorrow_.strftime(date_format_string).upper()} -----')
+    click.echo(f'--------------- DUE TOMORROW, {tomorrow_.strftime(date_format_string).upper()} ---------------')
     click.echo('')
     for i in todo_list:
-        if i.due_date == 'tomorrow':
+        if i.due_date == tomorrow_.strftime(date_format_string):
             click.echo(i)
-    click.echo('')
 
 if __name__ == '__main__':
     main()
