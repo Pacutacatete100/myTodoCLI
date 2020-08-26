@@ -8,32 +8,18 @@
             "class_name": "business"
         },
         {
-            "name": "buy fundamentals of business and preparing an effective business plan",
-            "due_date": "Saturday August 29 2020",
-            "number": 2,
-            "is_done_check": "[ ]",
-            "class_name": "business"
-        },
-        {
             "name": "chapter 1, set 1 & 2",
             "due_date": "Thursday August 27 2020",
-            "number": 3,
+            "number": 2,
             "is_done_check": "[ ]",
             "class_name": "cmpt120"
         },
         {
             "name": "print 1.1 and 1.2 worksheets",
             "due_date": "Tuesday August 25 2020",
-            "number": 4,
+            "number": 3,
             "is_done_check": "[ ]",
             "class_name": "stats"
-        },
-        {
-            "name": "go to post office",
-            "due_date": "Wednesday August 26 2020",
-            "number": 5,
-            "is_done_check": "[ ]",
-            "class_name": "none"
         }
     ]
 }
