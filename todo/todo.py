@@ -12,18 +12,68 @@ current_date = datetime.date.today()
 date_format_string = '%A %B %d %Y'
 tomorrow_ = current_date + datetime.timedelta(days = 1)
 current_weekday = current_date.strftime('%A')
+tomorrow_weekday = tomorrow_.strftime('%A')
 
-print(current_weekday)
+    
+def print_day_schedule(weekday, day):
+    if weekday == 'Monday':
+        click.echo('')
+        click.echo(f'-------- {day.upper()}S CLASSES -----------\n')
+        click.echo('BUSINESS, LECTURE')
+        click.echo(' - 8:00 a.m. to 9:15 a.m.')
+        click.echo(' - DYSON 209')
+        click.echo(' - IN-PERSON\n')
+        
+        click.echo('CMPT120, LECTURE')
+        click.echo(' - 2:00 p.m. to 3:15 p.m.')
+        click.echo(' - LOWELL THOMAS 133')
+        click.echo(' - ONLINE\n')
+
+    elif weekday == 'Tuesday':
+        click.echo('')
+        click.echo('-------- NO CLASSES TODAY -----------\n')
+
+    elif weekday == 'Wednesday':
+        click.echo(f'-------- {day.upper()}S CLASSES -----------\n')
+        click.echo('ENG120, LECTURE')
+        click.echo(' - 2:00 p.m. to 3:15 p.m.')
+        click.echo(' - MUSIC 3203')
+        click.echo(' - IN-PERSON\n')
+
+    elif weekday == 'Thursday':
+        click.echo('')
+        click.echo(f'-------- {day.upper()}S CLASSES -----------\n')
+        click.echo('PHIL, LECTURE')
+        click.echo(' - 12:30 p.m. to 1:45 p.m.')
+        click.echo(' - LOWELL THOMAS 006')
+        click.echo(' - IN-PERSON\n')
+
+        click.echo('CMPT120, LECTURE')
+        click.echo(' - 2:00 p.m. to 3:15 p.m.')
+        click.echo(' - LOWELL THOMAS 133')
+        click.echo(' - IN_PERSON\n')
+
+        click.echo('STATS, LECTURE')
+        click.echo(' - 5:00 p.m. to 6:15 p.m.')
+        click.echo(' - HANCOCK 2017')
+        click.echo(' - IN-PERSON\n')
+
+    elif weekday == 'Friday':
+        click.echo(f'-------- {day.upper()}S CLASSES -----------\n')
+        click.echo('BUSINESS, LECTURE')
+        click.echo(' - 11:00 a.m. to 12:15 p.m.')
+        click.echo(' - TBD')
+        click.echo(' - IN-PERSON\n')
 
 def print_list():
     new_list = Todo_Item.load_objects_from_json()
     click.echo('')
     click.echo('--------------- TODO LIST ------------------')
-    click.echo(f'----- TODAY IS: {current_date.strftime(date_format_string).upper()} -----')
-    click.echo('')
+    click.echo(f'----- TODAY IS: {current_date.strftime(date_format_string).upper()} -----\n')
     for ti in new_list:
         click.echo(ti)
-    
+    print_day_schedule(current_weekday, 'today')
+
 
 @click.group('todo')
 def main():
@@ -35,7 +85,7 @@ def list():
 
 @main.command('add')
 @click.option('--item', prompt=True)
-@click.option('--due', prompt='Due Date: mm-dd')
+@click.option('--due', prompt='Due Date in mm-dd format')
 @click.option('--classname', prompt='Class Name')
 def add(item, due, classname):
     due_date = dateparser.parse(due).strftime(date_format_string)
@@ -68,7 +118,7 @@ def undone(num):
 @click.option('--classname', prompt='class you want to sort by')
 def class_(classname):
     click.echo('')
-    click.echo(f'--------------- FOR {classname.upper()} ---------------')
+    click.echo(f'--------------- FOR {classname.upper()} ---------------\n')
     for i in todo_list:
         if i.class_name == classname:
             click.echo(i)
@@ -78,7 +128,7 @@ def class_(classname):
 def date(duedate):
     formatted_due_date = dateparser.parse(duedate).strftime(date_format_string)
     click.echo('')
-    click.echo(f'--------------- DUE {formatted_due_date.upper()} ---------------')
+    click.echo(f'--------------- DUE {formatted_due_date.upper()} ---------------\n')
     for i in todo_list:
         if i.due_date == formatted_due_date:
             click.echo(i)
@@ -86,20 +136,20 @@ def date(duedate):
 @main.command('today')
 def today():
     click.echo('')
-    click.echo(f'--------------- DUE TODAY, {current_date.strftime(date_format_string).upper()} ---------------')
-    click.echo('')
+    click.echo(f'--------------- DUE TODAY, {current_date.strftime(date_format_string).upper()} ---------------\n')
     for i in todo_list:
         if i.due_date == current_date.strftime(date_format_string):
             click.echo(i)
-
+    print_day_schedule(current_weekday, 'today')
+    
 @main.command('tomorrow')
 def tomorrow():
     click.echo('')
-    click.echo(f'--------------- DUE TOMORROW, {tomorrow_.strftime(date_format_string).upper()} ---------------')
-    click.echo('')
+    click.echo(f'--------------- DUE TOMORROW, {tomorrow_.strftime(date_format_string).upper()} ---------------\n')
     for i in todo_list:
         if i.due_date == tomorrow_.strftime(date_format_string):
             click.echo(i)
+    print_day_schedule(tomorrow_weekday, 'tomorrow')
 
 if __name__ == '__main__':
     main()
