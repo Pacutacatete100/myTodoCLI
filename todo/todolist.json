@@ -20,6 +20,20 @@
             "number": 3,
             "is_done_check": "[ ]",
             "class_name": "stats"
+        },
+        {
+            "name": "make perusall annotations on syllabus",
+            "due_date": "Thursday August 27 2020",
+            "number": 4,
+            "is_done_check": "[X]",
+            "class_name": "eng120"
+        },
+        {
+            "name": "week 2 prep",
+            "due_date": "Tuesday September 01 2020",
+            "number": 5,
+            "is_done_check": "[ ]",
+            "class_name": "eng120"
         }
     ]
 }
