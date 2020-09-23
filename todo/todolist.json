@@ -1,39 +1,25 @@
 {
     "todoitems": [
         {
-            "name": "chapter 10 fundamentals of management",
-            "due_date": "Saturday August 29 2020",
+            "name": "2.5 and 2.6 worksheets",
+            "due_date": "Tuesday September 22 2020",
             "number": 1,
-            "is_done_check": "[ ]",
-            "class_name": "business"
-        },
-        {
-            "name": "chapter 1, set 1 & 2",
-            "due_date": "Thursday August 27 2020",
-            "number": 2,
-            "is_done_check": "[ ]",
-            "class_name": "cmpt120"
-        },
-        {
-            "name": "print 1.1 and 1.2 worksheets",
-            "due_date": "Tuesday August 25 2020",
-            "number": 3,
             "is_done_check": "[ ]",
             "class_name": "stats"
         },
         {
-            "name": "make perusall annotations on syllabus",
-            "due_date": "Thursday August 27 2020",
-            "number": 4,
-            "is_done_check": "[X]",
-            "class_name": "eng120"
+            "name": "business thing",
+            "due_date": "Sunday September 20 2020",
+            "number": 2,
+            "is_done_check": "[ ]",
+            "class_name": "bus"
         },
         {
-            "name": "week 2 prep",
-            "due_date": "Tuesday September 01 2020",
-            "number": 5,
+            "name": "while loop worksheet",
+            "due_date": "Thursday September 24 2020",
+            "number": 3,
             "is_done_check": "[ ]",
-            "class_name": "eng120"
+            "class_name": "cmpt120"
         }
     ]
 }

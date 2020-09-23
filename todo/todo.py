@@ -1,10 +1,17 @@
 import sys
+import os
 import click
 from todo.TodoItem import Todo_Item
+import todo.TodoItem
 import datetime
 import json
 import calendar
 import dateparser
+
+THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
+with open(my_file) as f:
+    location = f.readline()
 
 
 todo_list = Todo_Item.load_objects_from_json()
@@ -13,6 +20,7 @@ date_format_string = '%A %B %d %Y'
 tomorrow_ = current_date + datetime.timedelta(days = 1)
 current_weekday = current_date.strftime('%A')
 tomorrow_weekday = tomorrow_.strftime('%A')
+weekdays = {'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6, 'Sunday':7}
 
     
 def print_day_schedule(weekday, day):
@@ -69,9 +77,9 @@ def print_day_schedule(weekday, day):
         click.echo(f'-------- {day.upper()}S CLASSES -----------\n')
         click.echo('BUSINESS, LECTURE')
         click.echo(' - 11:00 a.m. to 12:15 p.m.')
-        click.echo(' - TBD')
+        click.echo(' - NO CLASSROOM')
         click.echo(' - RENA HILL')
-        click.echo(' - IN-PERSON\n')
+        click.echo(' - ONLINE\n')
 
 def print_list():
     new_list = Todo_Item.load_objects_from_json()
@@ -98,7 +106,7 @@ def list():
 def add(item, due, classname):
     due_date = dateparser.parse(due).strftime(date_format_string)
     new_item = Todo_Item(item, due_date, len(todo_list) + 1, class_name=classname)
-    new_item.add_to_json(new_item, 'C:/Users/pacut/Desktop/Code/myTodoCLI/todo/todolist.json')
+    new_item.add_to_json(new_item, location)
     print_list()
 
 @main.command('done')
@@ -109,10 +117,13 @@ def done(num):
     print_list()
 
 @main.command('remove')
-@click.option('--num', prompt='Number of item you want to remove')
+@click.option('--num', prompt='Number of item you want to remove or "done" to remove all the completed items')
 def remove(num):
-    number = int(num)
-    todo_list[number - 1].remove_from_json(number)
+    if num == 'done':
+        Todo_Item.remove_all_completed()
+    else:
+        number = int(num)
+        todo_list[number - 1].remove_from_json(number)
     print_list()
 
 @main.command('undone')
@@ -160,6 +171,23 @@ def tomorrow():
         if i.due_date == tomorrow_.strftime(date_format_string):
             click.echo(i)
     print_day_schedule(tomorrow_weekday, 'tomorrow')
+
+@main.command('edit')
+@click.option('--num', prompt='the number of the item you want to edit')
+@click.option('--part', prompt='enter what part you want to edit (item, date, class)')
+@click.option('--edited', prompt='enter the edited part')
+def edit(num, part, edited):
+    number = int(num)
+    todo_list[number - 1].edit(part, edited)
+    print_list()
+
+@main.command('classes')
+@click.option('--day', prompt='today or tomorrow')
+def classes(day):
+    if day == 'today':
+        print_day_schedule(current_weekday, day)
+    elif day == 'tomorrow':
+        print_day_schedule(tomorrow_weekday, day)
 
 if __name__ == '__main__':
     main()
