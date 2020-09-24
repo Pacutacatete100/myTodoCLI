@@ -88,6 +88,17 @@ class Todo_Item:
         
         with open(location, 'w') as json_file:
             data = json.dump(data, json_file, indent=4)
+
+    @classmethod
+    def mark_all_complete(cls):
+        with open(location) as json_file:
+            data = json.load(json_file)
+            
+        for item in data['todoitems'][:]:
+            item['is_done_check'] = '[X]'
+
+        with open(location, 'w') as json_file:
+            data = json.dump(data, json_file, indent=4)
     
     @classmethod
     def remove_all_completed(cls):

@@ -108,3 +108,4 @@ install.sh
 todo/.todo.py.un~
 todo/todo.py~
 todo/secrets.txt
+todo/todolist.json

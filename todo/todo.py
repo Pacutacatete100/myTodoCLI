@@ -110,10 +110,13 @@ def add(item, due, classname):
     print_list()
 
 @main.command('done')
-@click.option('--num', prompt='Number of item you want to mark as completed')
+@click.option('--num', prompt='Number of item you want to mark as completed or "all" to mark all items as completed')
 def done(num):
-    number = int(num)
-    todo_list[number - 1].mark_as_completed()
+    if num == 'all':
+        Todo_Item.mark_all_complete()
+    else:
+        number = int(num)
+        todo_list[number - 1].mark_as_completed()
     print_list()
 
 @main.command('remove')
