@@ -64,16 +64,15 @@ class Todo_Item:
             json.dump(data, json_file, indent=4)
 
     def add_to_json(self, item, file):
-        def write_json(data, file_name=location):
-            with open(file_name, 'w') as f:
-                json.dump(data, f, indent=4)
 
         with open(location) as json_file:
             data = json.load(json_file)
             temp = data['todoitems']
             item_dict = item.__dict__
             temp.append(item_dict)
-        write_json(data)
+        
+        with open(location, 'w') as f:
+                json.dump(data, f, indent=4)
 
 
     def remove_from_json(self, number):
@@ -93,7 +92,7 @@ class Todo_Item:
     def mark_all_complete(cls):
         with open(location) as json_file:
             data = json.load(json_file)
-            
+
         for item in data['todoitems'][:]:
             item['is_done_check'] = '[X]'
 
