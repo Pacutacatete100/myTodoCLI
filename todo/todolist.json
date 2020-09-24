@@ -1,0 +1,25 @@
+{
+    "todoitems": [
+        {
+            "name": "business thing",
+            "due_date": "Sunday September 20 2020",
+            "number": 1,
+            "is_done_check": "[X]",
+            "class_name": "bus"
+        },
+        {
+            "name": "while loop worksheet",
+            "due_date": "Thursday September 24 2020",
+            "number": 2,
+            "is_done_check": "[X]",
+            "class_name": "cmpt120"
+        },
+        {
+            "name": "prog4",
+            "due_date": "Thursday October 01 2020",
+            "number": 3,
+            "is_done_check": "[ ]",
+            "class_name": "cmpt120"
+        }
+    ]
+}
