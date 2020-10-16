@@ -7,8 +7,9 @@ my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
 with open(my_file) as f:
     location = f.readline()
 
+
 class Todo_Item:
-    def __init__(self, name, due_date, number, is_done_check='[ ]', class_name='none' ):
+    def __init__(self, name, due_date, number, is_done_check='[ ]', class_name='none'):
         self.name = name
         self.due_date = due_date
         self.number = number
@@ -44,7 +45,7 @@ class Todo_Item:
     def edit(self, part, edited):
         with open(location) as file:
             data = json.load(file)
-        
+
         if part.upper() == 'item'.upper():
             for item in data['todoitems']:
                 if item['number'] == self.number:
@@ -70,52 +71,51 @@ class Todo_Item:
             temp = data['todoitems']
             item_dict = item.__dict__
             temp.append(item_dict)
-        
-        with open(location, 'w') as f:
-                json.dump(data, f, indent=4)
 
+        with open(location, 'w') as f:
+            json.dump(data, f, indent=4)
 
     def remove_from_json(self, number):
         with open(location) as json_file:
             data = json.load(json_file)
 
-        for item in data['todoitems'][:]:
+        for item in data['todoitems']:
             if item['number'] == self.number:
                 data['todoitems'].remove(item)
             if item['number'] > number:
                 item['number'] = item['number'] - 1
-        
+
         with open(location, 'w') as json_file:
-            data = json.dump(data, json_file, indent=4)
+            json.dump(data, json_file, indent=4)
 
     @classmethod
     def mark_all_complete(cls):
         with open(location) as json_file:
             data = json.load(json_file)
 
-        for item in data['todoitems'][:]:
+        for item in data['todoitems']:
             item['is_done_check'] = '[X]'
 
         with open(location, 'w') as json_file:
-            data = json.dump(data, json_file, indent=4)
-    
+            json.dump(data, json_file, indent=4)
+
     @classmethod
     def remove_all_completed(cls):
         with open(location) as json_file:
             data = json.load(json_file)
 
-        for item in data['todoitems'][:]:
+        for item in data['todoitems']:
             if item['is_done_check'] == '[X]':
                 data['todoitems'].remove(item)
 
-        for i in range(len(data['todoitems']))[:]:
+        for i in range(len(data['todoitems'])):
             data['todoitems'][i]['number'] = i + 1
 
         with open(location, 'w') as json_file:
-            data = json.dump(data, json_file, indent=4)
+            json.dump(data, json_file, indent=4)
 
     @classmethod
-    def load_objects_from_json(cls): #makes json objects/dicts into python objects
+    def load_objects_from_json(cls):  # makes json objects/dicts into python objects
         todo_list = []
         with open(location, 'r') as json_file:
             todo_items = json.loads(json_file.read())
@@ -123,5 +123,3 @@ class Todo_Item:
                 todo_list.append(cls(**i))
 
         return todo_list
-
-

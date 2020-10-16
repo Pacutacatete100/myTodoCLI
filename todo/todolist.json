@@ -1,25 +1,46 @@
 {
     "todoitems": [
         {
-            "name": "business thing",
-            "due_date": "Sunday September 20 2020",
+            "name": "week 8 prep",
+            "due_date": "Tuesday October 13 2020",
             "number": 1,
             "is_done_check": "[X]",
-            "class_name": "bus"
-        },
-        {
-            "name": "while loop worksheet",
-            "due_date": "Thursday September 24 2020",
-            "number": 2,
-            "is_done_check": "[X]",
-            "class_name": "cmpt120"
+            "class_name": "eng120"
         },
         {
             "name": "prog4",
-            "due_date": "Thursday October 01 2020",
-            "number": 3,
+            "due_date": "Monday October 19 2020",
+            "number": 2,
             "is_done_check": "[ ]",
             "class_name": "cmpt120"
+        },
+        {
+            "name": "4.1 and 4.2 worksheet",
+            "due_date": "Sunday October 18 2020",
+            "number": 3,
+            "is_done_check": "[ ]",
+            "class_name": "stats"
+        },
+        {
+            "name": "wiley plus",
+            "due_date": "Sunday October 18 2020",
+            "number": 4,
+            "is_done_check": "[ ]",
+            "class_name": "stats"
+        },
+        {
+            "name": "ask professor if rokos basilisk is a valid topic for paper",
+            "due_date": "Thursday October 15 2020",
+            "number": 5,
+            "is_done_check": "[X]",
+            "class_name": "phil101"
+        },
+        {
+            "name": "test process due date function",
+            "due_date": "Saturday October 24 2020",
+            "number": 6,
+            "is_done_check": "[ ]",
+            "class_name": "none"
         }
     ]
 }
