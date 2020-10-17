@@ -1,10 +1,7 @@
-import sys
 import os
 import click
-from todo.TodoItem import Todo_Item
-import todo.TodoItem
+from todo.TodoItem import TodoItem
 import datetime
-import json
 import calendar
 import dateparser
 
@@ -13,7 +10,7 @@ my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
 with open(my_file) as f:
     location = f.readline()
 
-todo_list = Todo_Item.load_objects_from_json()
+todo_list = TodoItem.load_objects_from_json()
 current_date = datetime.date.today()
 date_format_string = '%A %B %d %Y'
 tomorrow_ = current_date + datetime.timedelta(days=1)
@@ -84,7 +81,7 @@ def print_day_schedule(weekday, day):
 
 
 def print_list():
-    new_list = Todo_Item.load_objects_from_json()
+    new_list = TodoItem.load_objects_from_json()
     click.echo('')
     click.echo(f'----- TODAY IS: {current_date.strftime(date_format_string).upper()} -----\n')
     click.echo('--------------- TODO LIST ------------------\n')
@@ -103,7 +100,7 @@ def process_date(due):
             next_weekday_num = int(last_weekday_nums[1]) + 7
             return f'{last_weekday_nums[0]}-{str(next_weekday_num)}'
     else:
-        return due
+        return dateparser.parse(due).strftime(date_format_string)
 
 
 @click.group('todo')
@@ -112,7 +109,7 @@ def main():
 
 
 @main.command('list')
-def list():
+def list_():
     print_list()
 
 
@@ -121,8 +118,8 @@ def list():
 @click.option('--due', prompt='Due Date in mm-dd format')
 @click.option('--classname', prompt='Class Name')
 def add(item, due, classname):
-    processed_due_date = dateparser.parse(due).strftime(date_format_string)
-    new_item = Todo_Item(item, processed_due_date, len(todo_list) + 1, class_name=classname)
+    processed_due_date = process_date(due)
+    new_item = TodoItem(item, processed_due_date, len(todo_list) + 1, class_name=classname)
     new_item.add_to_json(new_item, location)
     print_list()
 
@@ -131,7 +128,7 @@ def add(item, due, classname):
 @click.option('--num', prompt='Number of item you want to mark as completed or "all" to mark all items as completed')
 def done(num):
     if num == 'all':
-        Todo_Item.mark_all_complete()
+        TodoItem.mark_all_complete()
     else:
         number = int(num)
         todo_list[number - 1].mark_as_completed()
@@ -142,7 +139,7 @@ def done(num):
 @click.option('--num', prompt='Number of item you want to remove or "done" to remove all the completed items')
 def remove(num):
     if num == 'done':
-        Todo_Item.remove_all_completed()
+        TodoItem.remove_all_completed()
     else:
         number = int(num)
         todo_list[number - 1].remove_from_json(number)

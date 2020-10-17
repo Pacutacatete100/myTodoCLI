@@ -8,7 +8,7 @@ with open(my_file) as f:
     location = f.readline()
 
 
-class Todo_Item:
+class TodoItem:
     def __init__(self, name, due_date, number, is_done_check='[ ]', class_name='none'):
         self.name = name
         self.due_date = due_date
@@ -17,7 +17,7 @@ class Todo_Item:
         self.class_name = class_name if class_name is not None else 'none'
 
     def __str__(self):
-        return f' {str(self.number)}. {self.is_done_check} {self.name.title()}\n   Due: {self.due_date.title()}, Class: {self.class_name.upper()}\n'
+        return f' {str(self.number)}. {self.is_done_check} {self.name.title()}\n   Due: {self.due_date.title()}, Class: {self.class_name.upper()}\n '
 
     def mark_as_completed(self):
 
