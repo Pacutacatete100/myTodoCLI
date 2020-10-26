@@ -1,32 +1,25 @@
 {
     "todoitems": [
         {
-            "name": "prog4",
-            "due_date": "Monday October 19 2020",
+            "name": "week 10 forums",
+            "due_date": "Thursday October 29 2020",
             "number": 1,
             "is_done_check": "[ ]",
-            "class_name": "cmpt120"
+            "class_name": "phil101"
         },
         {
-            "name": "4.1 and 4.2 worksheet",
-            "due_date": "Sunday October 18 2020",
+            "name": "paper rough draft",
+            "due_date": "Monday November 02 2020",
             "number": 2,
             "is_done_check": "[ ]",
-            "class_name": "stats"
+            "class_name": "phil101"
         },
         {
-            "name": "wiley plus",
-            "due_date": "Sunday October 18 2020",
+            "name": "business part 3",
+            "due_date": "Monday November 02 2020",
             "number": 3,
             "is_done_check": "[ ]",
-            "class_name": "stats"
-        },
-        {
-            "name": "test process due date function",
-            "due_date": "Saturday October 24 2020",
-            "number": 4,
-            "is_done_check": "[ ]",
-            "class_name": "none"
+            "class_name": "bus100"
         }
     ]
 }

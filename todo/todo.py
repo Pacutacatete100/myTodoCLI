@@ -16,9 +16,9 @@ date_format_string = '%A %B %d %Y'
 tomorrow_ = current_date + datetime.timedelta(days=1)
 current_weekday = current_date.strftime('%A')
 tomorrow_weekday = tomorrow_.strftime('%A')
-weekday_dict = {'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6, 'Sunday': 7}
 weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
 days_in_month = calendar.monthrange(current_date.year, current_date.month)
+current_month = current_date.strftime('%m')
 
 
 def print_day_schedule(weekday, day):
@@ -95,10 +95,12 @@ def process_date(due):
         last_weekday = dateparser.parse(due).strftime('%m-%d')
         last_weekday_nums = last_weekday.split('-')
         if (int(last_weekday_nums[1]) + 7) > days_in_month[1]:
-            return 'kkl'
+            date_str = f'{int(current_month) + 1}-{(int(last_weekday_nums[1]) + 7) - days_in_month[1]}'
+            return dateparser.parse(date_str).strftime(date_format_string)
         else:
             next_weekday_num = int(last_weekday_nums[1]) + 7
-            return f'{last_weekday_nums[0]}-{str(next_weekday_num)}'
+            date_str = f'{last_weekday_nums[0]}-{str(next_weekday_num)}'
+            return dateparser.parse(date_str).strftime(date_format_string)
     else:
         return dateparser.parse(due).strftime(date_format_string)
 
@@ -167,7 +169,7 @@ def class_(classname):
 @main.command('date')
 @click.option('--duedate', prompt='Date in mm-dd format')
 def date(duedate):
-    formatted_due_date = dateparser.parse(duedate).strftime(date_format_string)
+    formatted_due_date = process_date(duedate)
     due_date_weekday = dateparser.parse(duedate).strftime('%A')
     click.echo('')
     click.echo(f'--------------- DUE {formatted_due_date.upper()} ---------------\n')
