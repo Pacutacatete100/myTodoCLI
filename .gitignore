@@ -109,3 +109,8 @@ todo/.todo.py.un~
 todo/todo.py~
 todo/secrets.txt
 todo/todolist.json
+.idea/misc.xml
+.idea/modules.xml
+.idea/myTodoCLI.iml
+.idea/vcs.xml
+.idea/inspectionProfiles/profiles_settings.xml

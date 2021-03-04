@@ -26,59 +26,52 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(f'-------- {day.upper()}S CLASSES -----------\n')
 
-        click.echo('BUSINESS, LECTURE')
-        click.echo(' - 8:00 a.m. to 9:15 a.m.')
-        click.echo(' - DYSON 209')
-        click.echo(' - DEBRA ZAMBITO')
+        click.echo('MATH205, LECTURE')
+        click.echo(' - 9:30 a.m. to 10:30 a.m.')
+        click.echo(' - HANCOCK 2017')
+        click.echo(' - TRACEY MCGRAIL')
         click.echo(' - IN-PERSON\n')
 
-        click.echo('CMPT120, LECTURE')
-        click.echo(' - 2:00 p.m. to 3:15 p.m.')
-        click.echo(' - LOWELL THOMAS 133')
-        click.echo(' - DONALD SCHWARTZ')
-        click.echo(' - ONLINE\n')
+        click.echo('FYS101, LECTURE')
+        click.echo(' - 11:00 a.m. to 12:00 p.m.')
+        click.echo(' - SC 3102')
+        click.echo(' - MOIRA FITZGIBBONS')
+        click.echo(' - IN-PERSON\n')
 
     elif weekday == 'Tuesday':
-        click.echo('')
-        click.echo('-------- NO CLASSES TODAY -----------\n')
+        click.echo('CMPT230, LECTURE')
+        click.echo(' - 2:00 p.m. to 3:00 p.m.')
+        click.echo(' - HANCOCK 1021')
+        click.echo(' - CATHY MARTENSEN')
+        click.echo(' - IN-PERSON\n')
 
     elif weekday == 'Wednesday':
         click.echo(f'-------- {day.upper()}S CLASSES -----------\n')
-        click.echo('ENG120, LECTURE')
-        click.echo(' - 2:00 p.m. to 3:15 p.m.')
-        click.echo(' - MUSIC 3203')
+        click.echo('FYS101, LECTURE')
+        click.echo(' - 9:30 a.m. to 10:30 a.m.')
+        click.echo(' - SC 3102')
         click.echo(' - MOIRA FITZGIBBONS')
+        click.echo(' - IN-PERSON\n')
+        
+        click.echo('CMPT220, LECTURE')
+        click.echo(' - 8:00 p.m. to 9:15 p.m.')
+        click.echo(' - HANCOCK 1021')
+        click.echo(' - JUAN ARIAS')
         click.echo(' - IN-PERSON\n')
 
     elif weekday == 'Thursday':
         click.echo('')
         click.echo(f'-------- {day.upper()}S CLASSES -----------\n')
-        click.echo('PHIL, LECTURE')
-        click.echo(' - 12:30 p.m. to 1:45 p.m.')
-        click.echo(' - LOWELL THOMAS 006')
-        click.echo(' - HENRY PRATT')
-        click.echo(' - IN-PERSON\n')
-
-        click.echo('CMPT120, LECTURE')
-        click.echo(' - 2:00 p.m. to 3:15 p.m.')
-        click.echo(' - LOWELL THOMAS 133')
-        click.echo(' - DONALD SCHWARTZ')
-        click.echo(' - IN_PERSON\n')
-
-        click.echo('STATS, LECTURE')
-        click.echo(' - 5:00 p.m. to 6:15 p.m.')
+        click.echo('MATH205, LECTURE')
+        click.echo(' - 9:30 a.m. to 10:30 a.m.')
         click.echo(' - HANCOCK 2017')
-        click.echo(' - ERIC BRADFORD')
+        click.echo(' - TRACY MCGRAIL')
         click.echo(' - IN-PERSON\n')
+
 
     elif weekday == 'Friday':
-        click.echo(f'-------- {day.upper()}S CLASSES -----------\n')
-        click.echo('BUSINESS, LECTURE')
-        click.echo(' - 11:00 a.m. to 12:15 p.m.')
-        click.echo(' - NO CLASSROOM')
-        click.echo(' - RENA HILL')
-        click.echo(' - ONLINE\n')
-
+        click.echo(f'-------- NO CLASSES -----------\n')
+        
 
 def print_list():
     new_list = TodoItem.load_objects_from_json()
@@ -94,8 +87,11 @@ def process_date(due):
     if due in weekdays:
         last_weekday = dateparser.parse(due).strftime('%m-%d')
         last_weekday_nums = last_weekday.split('-')
-        if (int(last_weekday_nums[1]) + 7) > days_in_month[1]:
+        if (int(last_weekday_nums[1]) + 7) > days_in_month[1]: #if weekday entered is after end of month
             date_str = f'{int(current_month) + 1}-{(int(last_weekday_nums[1]) + 7) - days_in_month[1]}'
+            return dateparser.parse(date_str).strftime(date_format_string)
+        elif due.upper() == current_weekday.upper():
+            date_str = f'{int(current_month)}-{(int(last_weekday_nums[1]) + 7)}' #if weekday entered is same as current day 
             return dateparser.parse(date_str).strftime(date_format_string)
         else:
             next_weekday_num = int(last_weekday_nums[1]) + 7

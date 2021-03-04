@@ -1,25 +1,32 @@
 {
     "todoitems": [
         {
-            "name": "week 10 forums",
-            "due_date": "Thursday October 29 2020",
+            "name": "read fun home",
+            "due_date": "Monday March 08 2021",
             "number": 1,
             "is_done_check": "[ ]",
-            "class_name": "phil101"
+            "class_name": "fys101"
         },
         {
-            "name": "paper rough draft",
-            "due_date": "Monday November 02 2020",
+            "name": "webassign 1.4 and 1.5",
+            "due_date": "Tuesday March 09 2021",
             "number": 2,
             "is_done_check": "[ ]",
-            "class_name": "phil101"
+            "class_name": "math205"
         },
         {
-            "name": "business part 3",
-            "due_date": "Monday November 02 2020",
+            "name": "image analysis",
+            "due_date": "Friday March 19 2021",
             "number": 3,
             "is_done_check": "[ ]",
-            "class_name": "bus100"
+            "class_name": "fys101"
+        },
+        {
+            "name": "nag professor moira for rec letter",
+            "due_date": "Wednesday March 10 2021",
+            "number": 4,
+            "is_done_check": "[ ]",
+            "class_name": "none"
         }
     ]
 }
