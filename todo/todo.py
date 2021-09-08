@@ -20,57 +20,81 @@ weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 
 days_in_month = calendar.monthrange(current_date.year, current_date.month)
 current_month = current_date.strftime('%m')
 
+def async_classes():
+    click.echo('')
+    click.echo(f'-------- ASYNCHRONOUS CLASSES -----------\n')
+        
+    click.echo('APPLIED SOCIAL ENGINEERING | SOCENG')
+    click.echo(' - ASYNCHRONOUS')
+    click.echo(' - FILIPO SHAREVSKI\n')
+
+    click.echo('INTRO TO WEB COMPUTING | WEB')
+    click.echo(' - ASYNCHRONOUS')
+    click.echo(' - JOSEPH MENDELSOHN')
+    click.echo('')
+
 
 def print_day_schedule(weekday, day):
     if weekday == 'Monday':
         click.echo('')
         click.echo(f'-------- {day.upper()}S CLASSES -----------\n')
 
-        click.echo('MATH205, LECTURE')
-        click.echo(' - 9:30 a.m. to 10:30 a.m.')
-        click.echo(' - HANCOCK 2017')
-        click.echo(' - TRACEY MCGRAIL')
+        click.echo('ETHICS IN TECHNOLOGY | ETHICS')
+        click.echo(' - 11:20 a.m. to 12:50 p.m.')
+        click.echo(' - LEVAN CENTER 301')
+        click.echo(' - EDWARD TVERDEK')
         click.echo(' - IN-PERSON\n')
 
-        click.echo('FYS101, LECTURE')
-        click.echo(' - 11:00 a.m. to 12:00 p.m.')
-        click.echo(' - SC 3102')
-        click.echo(' - MOIRA FITZGIBBONS')
+        click.echo('INTRO TO CS | INTRO')
+        click.echo(' - 3:10 p.m. to 4:40 p.m.')
+        click.echo(' - CDM CENTER 220')
+        click.echo(' - AMBER SETTLE')
         click.echo(' - IN-PERSON\n')
+
+        async_classes()
 
     elif weekday == 'Tuesday':
-        click.echo('CMPT230, LECTURE')
-        click.echo(' - 2:00 p.m. to 3:00 p.m.')
-        click.echo(' - HANCOCK 1021')
+        click.echo('COMPOSITION & RHETORIC | RHET')
+        click.echo(' - 11:50 a.m. to 1:20 p.m.')
+        click.echo(' - LEWIS CENTER 1516')
         click.echo(' - CATHY MARTENSEN')
         click.echo(' - IN-PERSON\n')
 
+        async_classes()
+
     elif weekday == 'Wednesday':
         click.echo(f'-------- {day.upper()}S CLASSES -----------\n')
-        click.echo('FYS101, LECTURE')
-        click.echo(' - 9:30 a.m. to 10:30 a.m.')
-        click.echo(' - SC 3102')
-        click.echo(' - MOIRA FITZGIBBONS')
+
+        click.echo('ETHICS IN TECHNOLOGY | ETHICS')
+        click.echo(' - 11:20 a.m. to 12:50 p.m.')
+        click.echo(' - LEVAN CENTER 301')
+        click.echo(' - EDWARD TVERDEK')
         click.echo(' - IN-PERSON\n')
-        
-        click.echo('CMPT220, LECTURE')
-        click.echo(' - 8:00 p.m. to 9:15 p.m.')
-        click.echo(' - HANCOCK 1021')
-        click.echo(' - JUAN ARIAS')
+
+        click.echo('INTRO TO CS | INTRO')
+        click.echo(' - 3:10 p.m. to 4:40 p.m.')
+        click.echo(' - CDM CENTER 220')
+        click.echo(' - AMBER SETTLE')
         click.echo(' - IN-PERSON\n')
+
+        async_classes()
 
     elif weekday == 'Thursday':
         click.echo('')
         click.echo(f'-------- {day.upper()}S CLASSES -----------\n')
-        click.echo('MATH205, LECTURE')
-        click.echo(' - 9:30 a.m. to 10:30 a.m.')
-        click.echo(' - HANCOCK 2017')
-        click.echo(' - TRACY MCGRAIL')
+
+        click.echo('COMPOSITION & RHETORIC | RHET')
+        click.echo(' - 11:50 a.m. to 1:20 p.m.')
+        click.echo(' - LEWIS CENTER 1516')
+        click.echo(' - CATHY MARTENSEN')
         click.echo(' - IN-PERSON\n')
+
+        async_classes()
 
 
     elif weekday == 'Friday':
-        click.echo(f'-------- NO CLASSES -----------\n')
+        click.echo(f'-------- NO IN-PERSON CLASSES -----------\n')
+        async_classes()
         
 
 def print_list():
@@ -212,6 +236,10 @@ def classes(day):
         print_day_schedule(current_weekday, day)
     elif day == 'tomorrow':
         print_day_schedule(tomorrow_weekday, day)
+
+@main.command('async')
+def async_classes_():
+    async_classes()
 
 
 if __name__ == '__main__':

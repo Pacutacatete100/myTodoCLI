@@ -1,32 +1,11 @@
 {
     "todoitems": [
         {
-            "name": "read fun home",
-            "due_date": "Monday March 08 2021",
+            "name": "csd meeting, csd loop center",
+            "due_date": "WEDNESDAY SEPTEMBER 08 2021",
             "number": 1,
             "is_done_check": "[ ]",
-            "class_name": "fys101"
-        },
-        {
-            "name": "webassign 1.4 and 1.5",
-            "due_date": "Tuesday March 09 2021",
-            "number": 2,
-            "is_done_check": "[ ]",
-            "class_name": "math205"
-        },
-        {
-            "name": "image analysis",
-            "due_date": "Friday March 19 2021",
-            "number": 3,
-            "is_done_check": "[ ]",
-            "class_name": "fys101"
-        },
-        {
-            "name": "nag professor moira for rec letter",
-            "due_date": "Wednesday March 10 2021",
-            "number": 4,
-            "is_done_check": "[ ]",
-            "class_name": "none"
+            "class_name": "NONE"
         }
     ]
 }
