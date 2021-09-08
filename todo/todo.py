@@ -23,15 +23,15 @@ current_month = current_date.strftime('%m')
 
 def async_classes():
     click.echo('')
-    click.echo(click.style(f'-------- ASYNCHRONOUS CLASSES -----------\n', fg='yellow'))
+    click.echo(click.style(f'-------- ASYNCHRONOUS CLASSES -----------\n', fg='magenta'))
         
-    click.echo(click.style('APPLIED SOCIAL ENGINEERING | SOCENG', fg='yellow'))
-    click.echo(click.style(' - ASYNCHRONOUS', fg='yellow'))
-    click.echo(click.style(' - FILIPO SHAREVSKI\n', fg='yellow'))
+    click.echo(click.style('APPLIED SOCIAL ENGINEERING | SOCENG', fg='magenta'))
+    click.echo(click.style(' - ASYNCHRONOUS', fg='magenta'))
+    click.echo(click.style(' - FILIPO SHAREVSKI\n', fg='magenta'))
 
-    click.echo(click.style('INTRO TO WEB COMPUTING | WEB', fg='yellow'))
-    click.echo(click.style(' - ASYNCHRONOUS', fg='yellow'))
-    click.echo(click.style(' - JOSEPH MENDELSOHN', fg='yellow'))
+    click.echo(click.style('INTRO TO WEB COMPUTING | WEB', fg='magenta'))
+    click.echo(click.style(' - ASYNCHRONOUS', fg='magenta'))
+    click.echo(click.style(' - JOSEPH MENDELSOHN', fg='magenta'))
     click.echo('')
 
 
@@ -108,7 +108,13 @@ def print_list():
     click.echo(f'----- TODAY IS: {current_date.strftime(date_format_string).upper()} -----\n')
     click.echo('--------------- TODO LIST ------------------\n')
     for ti in new_list:
-        click.echo(ti)
+        if ti.due_date == current_date.strftime(date_format_string):
+            click.echo(click.style(ti.__str__(), fg='red'))
+            # click.echo('\033[31;1m' + ti.__str__()), convert al color to this format, more color options
+        elif ti.due_date == tomorrow_.strftime(date_format_string):
+            click.echo(click.style(ti.__str__(), fg='yellow'))
+        else:
+            click.echo(ti)
 
     print_day_schedule(current_weekday, 'today')
 
