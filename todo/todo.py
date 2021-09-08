@@ -4,6 +4,7 @@ from todo.TodoItem import TodoItem
 import datetime
 import calendar
 import dateparser
+from colorama import Fore, Style
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
@@ -22,72 +23,76 @@ current_month = current_date.strftime('%m')
 
 def async_classes():
     click.echo('')
-    click.echo(f'-------- ASYNCHRONOUS CLASSES -----------\n')
+    click.echo(click.style(f'-------- ASYNCHRONOUS CLASSES -----------\n', fg='yellow'))
         
-    click.echo('APPLIED SOCIAL ENGINEERING | SOCENG')
-    click.echo(' - ASYNCHRONOUS')
-    click.echo(' - FILIPO SHAREVSKI\n')
+    click.echo(click.style('APPLIED SOCIAL ENGINEERING | SOCENG', fg='yellow'))
+    click.echo(click.style(' - ASYNCHRONOUS', fg='yellow'))
+    click.echo(click.style(' - FILIPO SHAREVSKI\n', fg='yellow'))
 
-    click.echo('INTRO TO WEB COMPUTING | WEB')
-    click.echo(' - ASYNCHRONOUS')
-    click.echo(' - JOSEPH MENDELSOHN')
+    click.echo(click.style('INTRO TO WEB COMPUTING | WEB', fg='yellow'))
+    click.echo(click.style(' - ASYNCHRONOUS', fg='yellow'))
+    click.echo(click.style(' - JOSEPH MENDELSOHN', fg='yellow'))
     click.echo('')
 
 
 def print_day_schedule(weekday, day):
     if weekday == 'Monday':
         click.echo('')
-        click.echo(f'-------- {day.upper()}S CLASSES -----------\n')
+        click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo('ETHICS IN TECHNOLOGY | ETHICS')
-        click.echo(' - 11:20 a.m. to 12:50 p.m.')
-        click.echo(' - LEVAN CENTER 301')
-        click.echo(' - EDWARD TVERDEK')
-        click.echo(' - IN-PERSON\n')
+        click.echo(click.style('ETHICS IN TECHNOLOGY | ETHICS', fg='cyan'))
+        click.echo(click.style(' - 11:20 a.m. to 12:50 p.m.', fg='cyan'))
+        click.echo(click.style(' - LEVAN CENTER 301', fg='cyan'))
+        click.echo(click.style(' - EDWARD TVERDEK', fg='cyan'))
+        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
-        click.echo('INTRO TO CS | INTRO')
-        click.echo(' - 3:10 p.m. to 4:40 p.m.')
-        click.echo(' - CDM CENTER 220')
-        click.echo(' - AMBER SETTLE')
-        click.echo(' - IN-PERSON\n')
+        click.echo(click.style('INTRO TO CS | INTRO', fg='cyan'))
+        click.echo(click.style(' - 3:10 p.m. to 4:40 p.m.', fg='cyan'))
+        click.echo(click.style(' - CDM CENTER 220', fg='cyan'))
+        click.echo(click.style(' - AMBER SETTLE', fg='cyan'))
+        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
 
     elif weekday == 'Tuesday':
-        click.echo('COMPOSITION & RHETORIC | RHET')
-        click.echo(' - 11:50 a.m. to 1:20 p.m.')
-        click.echo(' - LEWIS CENTER 1516')
-        click.echo(' - CATHY MARTENSEN')
-        click.echo(' - IN-PERSON\n')
+        click.echo('')
+        click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
+
+        click.echo(click.style('COMPOSITION & RHETORIC | RHET', fg='cyan'))
+        click.echo(click.style(' - 11:50 a.m. to 1:20 p.m.', fg='cyan'))
+        click.echo(click.style(' - LEWIS CENTER 1516', fg='cyan'))
+        click.echo(click.style(' - CATHY MARTENSEN', fg='cyan'))
+        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
 
     elif weekday == 'Wednesday':
-        click.echo(f'-------- {day.upper()}S CLASSES -----------\n')
+        click.echo('')
+        click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo('ETHICS IN TECHNOLOGY | ETHICS')
-        click.echo(' - 11:20 a.m. to 12:50 p.m.')
-        click.echo(' - LEVAN CENTER 301')
-        click.echo(' - EDWARD TVERDEK')
-        click.echo(' - IN-PERSON\n')
+        click.echo(click.style('ETHICS IN TECHNOLOGY | ETHICS', fg='cyan'))
+        click.echo(click.style(' - 11:20 a.m. to 12:50 p.m.', fg='cyan'))
+        click.echo(click.style(' - LEVAN CENTER 301', fg='cyan'))
+        click.echo(click.style(' - EDWARD TVERDEK', fg='cyan'))
+        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
-        click.echo('INTRO TO CS | INTRO')
-        click.echo(' - 3:10 p.m. to 4:40 p.m.')
-        click.echo(' - CDM CENTER 220')
-        click.echo(' - AMBER SETTLE')
-        click.echo(' - IN-PERSON\n')
+        click.echo(click.style('INTRO TO CS | INTRO', fg='cyan'))
+        click.echo(click.style(' - 3:10 p.m. to 4:40 p.m.', fg='cyan'))
+        click.echo(click.style(' - CDM CENTER 220', fg='cyan'))
+        click.echo(click.style(' - AMBER SETTLE', fg='cyan'))
+        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
 
     elif weekday == 'Thursday':
         click.echo('')
-        click.echo(f'-------- {day.upper()}S CLASSES -----------\n')
+        click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo('COMPOSITION & RHETORIC | RHET')
-        click.echo(' - 11:50 a.m. to 1:20 p.m.')
-        click.echo(' - LEWIS CENTER 1516')
-        click.echo(' - CATHY MARTENSEN')
-        click.echo(' - IN-PERSON\n')
+        click.echo(click.style('COMPOSITION & RHETORIC | RHET', fg='cyan'))
+        click.echo(click.style(' - 11:50 a.m. to 1:20 p.m.', fg='cyan'))
+        click.echo(click.style(' - LEWIS CENTER 1516', fg='cyan'))
+        click.echo(click.style(' - CATHY MARTENSEN', fg='cyan'))
+        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
 
@@ -104,6 +109,7 @@ def print_list():
     click.echo('--------------- TODO LIST ------------------\n')
     for ti in new_list:
         click.echo(ti)
+
     print_day_schedule(current_weekday, 'today')
 
 

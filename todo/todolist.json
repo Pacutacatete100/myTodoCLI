@@ -1,11 +1,11 @@
 {
     "todoitems": [
         {
-            "name": "csd meeting, csd loop center",
-            "due_date": "WEDNESDAY SEPTEMBER 08 2021",
+            "name": "CSD meeting, CSD loop center",
+            "due_date": "Wednesday September 08 2021",
             "number": 1,
             "is_done_check": "[ ]",
-            "class_name": "NONE"
+            "class_name": "none"
         }
     ]
 }

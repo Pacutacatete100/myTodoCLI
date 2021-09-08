@@ -54,7 +54,7 @@ class TodoItem:
         elif part.upper() == 'date'.upper():
             for item in data['todoitems']:
                 if item['number'] == self.number:
-                    item['due_date'] = dateparser.parse(edited).strftime('%A %B %d %Y').upper()
+                    item['due_date'] = dateparser.parse(edited).strftime('%A %B %d %Y')
 
         elif part.upper() == 'class'.upper():
             for item in data['todoitems']:
