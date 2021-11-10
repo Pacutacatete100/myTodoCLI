@@ -23,16 +23,17 @@ current_month = current_date.strftime('%m')
 
 def async_classes():
     click.echo('')
-    click.echo(click.style(f'-------- ASYNCHRONOUS CLASSES -----------\n', fg='magenta'))
+    click.echo('\033[35;1m' + '-------- ASYNCHRONOUS CLASSES -----------\n')
         
-    click.echo(click.style('APPLIED SOCIAL ENGINEERING | SOCENG', fg='magenta'))
-    click.echo(click.style(' - ASYNCHRONOUS', fg='magenta'))
-    click.echo(click.style(' - FILIPO SHAREVSKI\n', fg='magenta'))
+    click.echo('\033[35;1m' + 'APPLIED SOCIAL ENGINEERING | SOCENG')
+    click.echo('\033[35;1m' + ' - ASYNCHRONOUS')
+    click.echo('\033[35;1m' + ' - FILIPO SHAREVSKI')
+    click.echo('\033[35;1m' + ' - OPTIONAL LECTURE, THURSDAYS 5:45\n')
 
-    click.echo(click.style('INTRO TO WEB COMPUTING | WEB', fg='magenta'))
-    click.echo(click.style(' - ASYNCHRONOUS', fg='magenta'))
-    click.echo(click.style(' - JOSEPH MENDELSOHN', fg='magenta'))
-    click.echo('')
+    click.echo('\033[35;1m' + 'INTRO TO WEB COMPUTING | WEB')
+    click.echo('\033[35;1m' + ' - ASYNCHRONOUS')
+    click.echo('\033[35;1m' + ' - JOSEPH MENDELSOHN')
+    click.echo('\033[0m' + '')
 
 
 def print_day_schedule(weekday, day):
@@ -43,13 +44,8 @@ def print_day_schedule(weekday, day):
         click.echo(click.style('ETHICS IN TECHNOLOGY | ETHICS', fg='cyan'))
         click.echo(click.style(' - 11:20 a.m. to 12:50 p.m.', fg='cyan'))
         click.echo(click.style(' - LEVAN CENTER 301', fg='cyan'))
+        click.echo(click.style(' - LINCOLN PARK', fg='cyan'))
         click.echo(click.style(' - EDWARD TVERDEK', fg='cyan'))
-        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
-
-        click.echo(click.style('INTRO TO CS | INTRO', fg='cyan'))
-        click.echo(click.style(' - 3:10 p.m. to 4:40 p.m.', fg='cyan'))
-        click.echo(click.style(' - CDM CENTER 220', fg='cyan'))
-        click.echo(click.style(' - AMBER SETTLE', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
@@ -58,10 +54,19 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
+        click.echo(click.style('DATA STRUCTURES I | STRUCT', fg='cyan'))
+        click.echo(click.style(' - 10:10 a.m. to 11:40 p.m.', fg='cyan'))
+        click.echo(click.style(' - CDM CENTER 206', fg='cyan'))
+        click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
+        click.echo(click.style(' - JAMES RIELY', fg='cyan'))
+        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
+
+
         click.echo(click.style('COMPOSITION & RHETORIC | RHET', fg='cyan'))
         click.echo(click.style(' - 11:50 a.m. to 1:20 p.m.', fg='cyan'))
         click.echo(click.style(' - LEWIS CENTER 1516', fg='cyan'))
-        click.echo(click.style(' - CATHY MARTENSEN', fg='cyan'))
+        click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
+        click.echo(click.style(' - DANIELA OLSZEWSKA', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
@@ -73,13 +78,8 @@ def print_day_schedule(weekday, day):
         click.echo(click.style('ETHICS IN TECHNOLOGY | ETHICS', fg='cyan'))
         click.echo(click.style(' - 11:20 a.m. to 12:50 p.m.', fg='cyan'))
         click.echo(click.style(' - LEVAN CENTER 301', fg='cyan'))
+        click.echo(click.style(' - LINCOLN PARK', fg='cyan'))
         click.echo(click.style(' - EDWARD TVERDEK', fg='cyan'))
-        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
-
-        click.echo(click.style('INTRO TO CS | INTRO', fg='cyan'))
-        click.echo(click.style(' - 3:10 p.m. to 4:40 p.m.', fg='cyan'))
-        click.echo(click.style(' - CDM CENTER 220', fg='cyan'))
-        click.echo(click.style(' - AMBER SETTLE', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
@@ -88,13 +88,23 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
+        click.echo(click.style('DATA STRUCTURES I | STRUCT', fg='cyan'))
+        click.echo(click.style(' - 10:10 a.m. to 11:40 p.m.', fg='cyan'))
+        click.echo(click.style(' - CDM CENTER 206', fg='cyan'))
+        click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
+        click.echo(click.style(' - JAMES RIELY', fg='cyan'))
+        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
+
+
         click.echo(click.style('COMPOSITION & RHETORIC | RHET', fg='cyan'))
         click.echo(click.style(' - 11:50 a.m. to 1:20 p.m.', fg='cyan'))
         click.echo(click.style(' - LEWIS CENTER 1516', fg='cyan'))
-        click.echo(click.style(' - CATHY MARTENSEN', fg='cyan'))
+        click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
+        click.echo(click.style(' - DANIELA OLSZEWSKA', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
+
 
 
     elif weekday == 'Friday':
@@ -108,9 +118,11 @@ def print_list():
     click.echo(f'----- TODAY IS: {current_date.strftime(date_format_string).upper()} -----\n')
     click.echo('--------------- TODO LIST ------------------\n')
     for ti in new_list:
-        if ti.due_date == current_date.strftime(date_format_string):
+        if ti.due_date == current_date.strftime(date_format_string) and ti.is_done_check == "[ ]":
             click.echo(click.style(ti.__str__(), fg='red'))
             # click.echo('\033[31;1m' + ti.__str__()), convert al color to this format, more color options
+        elif ti.is_done_check == '[X]':
+            click.echo(click.style(ti.__str__(), fg='white'))
         elif ti.due_date == tomorrow_.strftime(date_format_string):
             click.echo(click.style(ti.__str__(), fg='yellow'))
         else:
@@ -123,12 +135,15 @@ def process_date(due):
     if due in weekdays:
         last_weekday = dateparser.parse(due).strftime('%m-%d')
         last_weekday_nums = last_weekday.split('-')
+
         if (int(last_weekday_nums[1]) + 7) > days_in_month[1]: #if weekday entered is after end of month
             date_str = f'{int(current_month) + 1}-{(int(last_weekday_nums[1]) + 7) - days_in_month[1]}'
             return dateparser.parse(date_str).strftime(date_format_string)
+
         elif due.upper() == current_weekday.upper():
             date_str = f'{int(current_month)}-{(int(last_weekday_nums[1]) + 7)}' #if weekday entered is same as current day 
             return dateparser.parse(date_str).strftime(date_format_string)
+
         else:
             next_weekday_num = int(last_weekday_nums[1]) + 7
             date_str = f'{last_weekday_nums[0]}-{str(next_weekday_num)}'
@@ -195,7 +210,14 @@ def class_(classname):
     click.echo(f'--------------- FOR {classname.upper()} ---------------\n')
     for i in todo_list:
         if i.class_name == classname:
-            click.echo(i)
+
+            if i.due_date == tomorrow_.strftime(date_format_string):
+                click.echo(click.style(i.__str__(), fg='yellow'))
+
+            elif i.due_date == current_date.strftime(date_format_string):
+                click.echo(click.style(i.__str__(), fg='red'))
+            else:
+                click.echo(i)
 
 
 @main.command('date')
@@ -217,7 +239,7 @@ def today():
     click.echo(f'--------------- DUE TODAY, {current_date.strftime(date_format_string).upper()} ---------------\n')
     for i in todo_list:
         if i.due_date == current_date.strftime(date_format_string):
-            click.echo(i)
+            click.echo(click.style(i.__str__(), fg='red'))
     print_day_schedule(current_weekday, 'today')
 
 
@@ -227,7 +249,7 @@ def tomorrow():
     click.echo(f'--------------- DUE TOMORROW, {tomorrow_.strftime(date_format_string).upper()} ---------------\n')
     for i in todo_list:
         if i.due_date == tomorrow_.strftime(date_format_string):
-            click.echo(i)
+            click.echo(click.style(i.__str__(), fg='yellow'))
     print_day_schedule(tomorrow_weekday, 'tomorrow')
 
 
