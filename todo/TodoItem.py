@@ -52,6 +52,11 @@ class TodoItem:
                     item['name'] = edited
 
         elif part.upper() == 'date'.upper():
+            if edited == 'td':
+                edited = 'today'
+            elif edited == 'tm':
+                edited = 'tomorrow'
+                
             for item in data['todoitems']:
                 if item['number'] == self.number:
                     item['due_date'] = dateparser.parse(edited).strftime('%A %B %d %Y')

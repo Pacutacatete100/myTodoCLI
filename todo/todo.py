@@ -129,9 +129,12 @@ def print_list():
             click.echo(ti)
 
     print_day_schedule(current_weekday, 'today')
+    click.echo('----------------------------------------\n')
+    progress_bar()
 
 
 def process_date(due):
+
     if due in weekdays:
         last_weekday = dateparser.parse(due).strftime('%m-%d')
         last_weekday_nums = last_weekday.split('-')
@@ -151,6 +154,30 @@ def process_date(due):
     else:
         return dateparser.parse(due).strftime(date_format_string)
 
+def progress_bar():
+    # progress bar based on the number of items in the todo list and the number of items that are done
+    
+    new_list = TodoItem.load_objects_from_json()
+    list_len = len(new_list)
+    num_items_done = 0
+
+    if list_len != 0:
+
+        for i in new_list:
+            if i.is_done_check == '[X]':
+                num_items_done += 1
+        
+        progress_percent = round((num_items_done / list_len) * 100)
+
+        progress_bar = f'|{" " * 20}|'
+        click.echo(f'{progress_bar} {progress_percent}%')
+
+    else:
+        click.echo('No Items In List')
+
+    
+    
+
 
 @click.group('todo')
 def main():
@@ -167,6 +194,11 @@ def list_():
 @click.option('--due', prompt='Due Date in mm-dd format')
 @click.option('--classname', prompt='Class Name')
 def add(item, due, classname):
+    if due == 'td':
+        due = 'today'
+    elif due == 'tm':
+        due = 'tomorrow'
+
     processed_due_date = process_date(due)
     new_item = TodoItem(item, processed_due_date, len(todo_list) + 1, class_name=classname)
     new_item.add_to_json(new_item, location)
