@@ -161,7 +161,11 @@ def progress_bar():
     list_len = len(new_list)
     num_items_done = 0
 
+    bar_fixed_width = 20
+    
+
     if list_len != 0:
+        bar_increment_value = round(bar_fixed_width / list_len)
 
         for i in new_list:
             if i.is_done_check == '[X]':
@@ -169,8 +173,13 @@ def progress_bar():
         
         progress_percent = round((num_items_done / list_len) * 100)
 
-        progress_bar = f'|{" " * 20}|'
-        click.echo(f'{progress_bar} {progress_percent}%')
+        progress_bar_limit = '|'
+        progress_bar = ' ' * bar_fixed_width
+
+
+        fixed = progress_bar.replace(' ', '=', bar_increment_value*num_items_done)
+
+        click.echo(click.style(f'{progress_bar_limit}{fixed}{progress_bar_limit} {progress_percent}%', fg='green'))
 
     else:
         click.echo('No Items In List')
