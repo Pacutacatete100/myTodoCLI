@@ -25,14 +25,15 @@ def async_classes():
     click.echo('')
     click.echo('\033[35;1m' + '-------- ASYNCHRONOUS CLASSES -----------\n')
         
-    click.echo('\033[35;1m' + 'APPLIED SOCIAL ENGINEERING | SOCENG')
+    click.echo('\033[35;1m' + 'DATA STRUCTURES II | STRUCT')
     click.echo('\033[35;1m' + ' - ASYNCHRONOUS')
-    click.echo('\033[35;1m' + ' - FILIPO SHAREVSKI')
-    click.echo('\033[35;1m' + ' - OPTIONAL LECTURE, THURSDAYS 5:45\n')
+    click.echo('\033[35;1m' + ' - TONY LOWE')
 
-    click.echo('\033[35;1m' + 'INTRO TO WEB COMPUTING | WEB')
+    click.echo('\033[35;1m' + 'COMPUTER SYSTEMS I | SYST')
     click.echo('\033[35;1m' + ' - ASYNCHRONOUS')
-    click.echo('\033[35;1m' + ' - JOSEPH MENDELSOHN')
+    click.echo('\033[35;1m' + ' - ZHEN HUANG')
+    click.echo('\033[35;1m' + ' - OPTIONAL ZOOM MEETING WEDNESDAYS 9:30 a.m. - 10:30 a.m.')
+
     click.echo('\033[0m' + '')
 
 
@@ -41,11 +42,11 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('ETHICS IN TECHNOLOGY | ETHICS', fg='cyan'))
-        click.echo(click.style(' - 11:20 a.m. to 12:50 p.m.', fg='cyan'))
-        click.echo(click.style(' - LEVAN CENTER 301', fg='cyan'))
-        click.echo(click.style(' - LINCOLN PARK', fg='cyan'))
-        click.echo(click.style(' - EDWARD TVERDEK', fg='cyan'))
+        click.echo(click.style('SOPHOMORE LAB APPLIED COMPUTING | APPCOMP', fg='cyan'))
+        click.echo(click.style(' - 1:30 p.m. to 3:00 p.m.', fg='cyan'))
+        click.echo(click.style(' - CDM CENTER 224', fg='cyan'))
+        click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
+        click.echo(click.style(' - CORIN PITCHER', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
@@ -54,19 +55,11 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('DATA STRUCTURES I | STRUCT', fg='cyan'))
+        click.echo(click.style('DISCRETE MATH II | MATH', fg='cyan'))
         click.echo(click.style(' - 10:10 a.m. to 11:40 p.m.', fg='cyan'))
-        click.echo(click.style(' - CDM CENTER 206', fg='cyan'))
+        click.echo(click.style(' - 14 E JACKSON ROOM 406', fg='cyan'))
         click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
-        click.echo(click.style(' - JAMES RIELY', fg='cyan'))
-        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
-
-
-        click.echo(click.style('COMPOSITION & RHETORIC | RHET', fg='cyan'))
-        click.echo(click.style(' - 11:50 a.m. to 1:20 p.m.', fg='cyan'))
-        click.echo(click.style(' - LEWIS CENTER 1516', fg='cyan'))
-        click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
-        click.echo(click.style(' - DANIELA OLSZEWSKA', fg='cyan'))
+        click.echo(click.style(' - ITIR MOGULTAY-ROGERS', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
@@ -75,11 +68,11 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('ETHICS IN TECHNOLOGY | ETHICS', fg='cyan'))
-        click.echo(click.style(' - 11:20 a.m. to 12:50 p.m.', fg='cyan'))
-        click.echo(click.style(' - LEVAN CENTER 301', fg='cyan'))
-        click.echo(click.style(' - LINCOLN PARK', fg='cyan'))
-        click.echo(click.style(' - EDWARD TVERDEK', fg='cyan'))
+        click.echo(click.style('SOPHOMORE LAB APPLIED COMPUTING | APPCOMP', fg='cyan'))
+        click.echo(click.style(' - 1:30 p.m. to 3:00 p.m.', fg='cyan'))
+        click.echo(click.style(' - CDM CENTER 224', fg='cyan'))
+        click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
+        click.echo(click.style(' - CORIN PITCHER', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
@@ -88,19 +81,11 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('DATA STRUCTURES I | STRUCT', fg='cyan'))
+        click.echo(click.style('DISCRETE MATH II | MATH', fg='cyan'))
         click.echo(click.style(' - 10:10 a.m. to 11:40 p.m.', fg='cyan'))
-        click.echo(click.style(' - CDM CENTER 206', fg='cyan'))
+        click.echo(click.style(' - 14 E JACKSON ROOM 406', fg='cyan'))
         click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
-        click.echo(click.style(' - JAMES RIELY', fg='cyan'))
-        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
-
-
-        click.echo(click.style('COMPOSITION & RHETORIC | RHET', fg='cyan'))
-        click.echo(click.style(' - 11:50 a.m. to 1:20 p.m.', fg='cyan'))
-        click.echo(click.style(' - LEWIS CENTER 1516', fg='cyan'))
-        click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
-        click.echo(click.style(' - DANIELA OLSZEWSKA', fg='cyan'))
+        click.echo(click.style(' - ITIR MOGULTAY-ROGERS', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
@@ -173,20 +158,16 @@ def progress_bar():
         
         progress_percent = round((num_items_done / list_len) * 100)
 
-        progress_bar_limit = '|'
         progress_bar = ' ' * bar_fixed_width
 
+        updated_progress_bar = progress_bar.replace(' ', '=', bar_increment_value*num_items_done)
 
-        fixed = progress_bar.replace(' ', '=', bar_increment_value*num_items_done)
-
-        click.echo(click.style(f'{progress_bar_limit}{fixed}{progress_bar_limit} {progress_percent}%', fg='green'))
+        click.echo(click.style(f'|{updated_progress_bar}| {progress_percent}%', fg='green'))
 
     else:
         click.echo('No Items In List')
 
     
-    
-
 
 @click.group('todo')
 def main():
