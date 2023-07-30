@@ -5,11 +5,20 @@ import datetime
 import calendar
 import dateparser
 from colorama import Fore, Style
+import openai
+from langchain.llms import OpenAI
+from langchain.chains import LLMChain
+from langchain.prompts import PromptTemplate
+
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
 with open(my_file) as f:
     location = f.readline()
+    openai_api_key = f.readline().strip()
+
+my_LLM = OpenAI(openai_api_key)
+
 
 todo_list = TodoItem.load_objects_from_json()
 current_date = datetime.date.today()
@@ -21,18 +30,24 @@ weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 
 days_in_month = calendar.monthrange(current_date.year, current_date.month)
 current_month = current_date.strftime('%m')
 
+def get_llm_item_dict(sentence: str, class_list: str):
+    prompt = PromptTemplate(
+        input_variables=["sentence", "class_list"],
+        template='You will be given a sentence that contains a To Do item, a date, and a class the item is for. Extract the data from the sentence and put it in a Python dictionary as outlined below:\n{\"name\": \"NAME HERE\", \"due_date\": \"DATE HERE\", \"class_name\": \"NAME HERE\"}\n\nThe following list is a list of the possible classes the item can be for:\n{class_list}\n\nWhen reading the sentence, interpret what class the item may fit under and make the value of  \"class_name\" the name of that class. If the class name is found, omit it from the \"name\" value of the item. If the class name is not found, make the class name value \"None\"\n\nSENTENCE: {sentence}'
+    )
+    chain = LLMChain(llm=my_LLM, prompt=prompt)
+    return chain.run({
+        'sentence': sentence,
+        'class_list': class_list
+    })
+
 def async_classes():
     click.echo('')
     click.echo('\033[35;1m' + '-------- ASYNCHRONOUS CLASSES -----------\n')
-        
-    click.echo('\033[35;1m' + 'DATA STRUCTURES II | STRUCT')
-    click.echo('\033[35;1m' + ' - ASYNCHRONOUS')
-    click.echo('\033[35;1m' + ' - TONY LOWE')
 
-    click.echo('\033[35;1m' + 'COMPUTER SYSTEMS I | SYST')
-    click.echo('\033[35;1m' + ' - ASYNCHRONOUS')
+    click.echo('\033[35;1m' + 'DISTRIBUTED SYSTEMS | DIST')
     click.echo('\033[35;1m' + ' - ZHEN HUANG')
-    click.echo('\033[35;1m' + ' - OPTIONAL ZOOM MEETING WEDNESDAYS 9:30 a.m. - 10:30 a.m.')
+    click.echo('\033[35;1m' + ' - ASYNCHRONOUS\n')
 
     click.echo('\033[0m' + '')
 
@@ -42,11 +57,18 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('SOPHOMORE LAB APPLIED COMPUTING | APPCOMP', fg='cyan'))
-        click.echo(click.style(' - 1:30 p.m. to 3:00 p.m.', fg='cyan'))
-        click.echo(click.style(' - CDM CENTER 224', fg='cyan'))
-        click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
-        click.echo(click.style(' - CORIN PITCHER', fg='cyan'))
+        click.echo(click.style('LATIN AMERICAN HISTORY | HIST', fg='cyan'))
+        click.echo(click.style(' - 9:40 a.m. to 11:10 p.m.', fg='cyan'))
+        click.echo(click.style(' - ARTS & LETTERS 406', fg='cyan'))
+        click.echo(click.style(' - LINCOLN PARK CAMPUS', fg='cyan'))
+        click.echo(click.style(' - JUAN MORA-TORRES', fg='cyan'))
+        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
+
+        click.echo(click.style('IMMIGRANT EXPERIENCES | LSP', fg='cyan'))
+        click.echo(click.style(' - 1:00 p.m. to 2:30 p.m.', fg='cyan'))
+        click.echo(click.style(' - LEVAN CENTER 404', fg='cyan'))
+        click.echo(click.style(' - LOOP CAMPIS', fg='cyan'))
+        click.echo(click.style(' - ZERRIN BULUT', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
@@ -55,11 +77,11 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('DISCRETE MATH II | MATH', fg='cyan'))
-        click.echo(click.style(' - 10:10 a.m. to 11:40 p.m.', fg='cyan'))
-        click.echo(click.style(' - 14 E JACKSON ROOM 406', fg='cyan'))
+        click.echo(click.style('DATABASE SYSTEMS | DATA', fg='cyan'))
+        click.echo(click.style(' - 11:50 a.m. to 1:20 p.m.', fg='cyan'))
+        click.echo(click.style(' - CDM 228', fg='cyan'))
         click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
-        click.echo(click.style(' - ITIR MOGULTAY-ROGERS', fg='cyan'))
+        click.echo(click.style(' - ELIECER PERAZA ALAYA', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
@@ -68,11 +90,18 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('SOPHOMORE LAB APPLIED COMPUTING | APPCOMP', fg='cyan'))
-        click.echo(click.style(' - 1:30 p.m. to 3:00 p.m.', fg='cyan'))
-        click.echo(click.style(' - CDM CENTER 224', fg='cyan'))
-        click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
-        click.echo(click.style(' - CORIN PITCHER', fg='cyan'))
+        click.echo(click.style('LATIN AMERICAN HISTORY | HIST', fg='cyan'))
+        click.echo(click.style(' - 9:40 a.m. to 11:10 p.m.', fg='cyan'))
+        click.echo(click.style(' - ARTS & LETTERS 406', fg='cyan'))
+        click.echo(click.style(' - LINCOLN PARK CAMPUS', fg='cyan'))
+        click.echo(click.style(' - JUAN MORA-TORRES', fg='cyan'))
+        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
+
+        click.echo(click.style('IMMIGRANT EXPERIENCES | LSP', fg='cyan'))
+        click.echo(click.style(' - 1:00 p.m. to 2:30 p.m.', fg='cyan'))
+        click.echo(click.style(' - LEVAN CENTER 404', fg='cyan'))
+        click.echo(click.style(' - LOOP CAMPIS', fg='cyan'))
+        click.echo(click.style(' - ZERRIN BULUT', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
@@ -81,16 +110,15 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('DISCRETE MATH II | MATH', fg='cyan'))
-        click.echo(click.style(' - 10:10 a.m. to 11:40 p.m.', fg='cyan'))
-        click.echo(click.style(' - 14 E JACKSON ROOM 406', fg='cyan'))
+        click.echo(click.style('DATABASE SYSTEMS | DATA', fg='cyan'))
+        click.echo(click.style(' - 11:50 a.m. to 1:20 p.m.', fg='cyan'))
+        click.echo(click.style(' - CDM 228', fg='cyan'))
         click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
-        click.echo(click.style(' - ITIR MOGULTAY-ROGERS', fg='cyan'))
+        click.echo(click.style(' - ELIECER PERAZA ALAYA', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
+
         async_classes()
-
-
 
     elif weekday == 'Friday':
         click.echo(f'-------- NO IN-PERSON CLASSES -----------\n')
@@ -114,7 +142,7 @@ def print_list():
             click.echo(ti)
 
     print_day_schedule(current_weekday, 'today')
-    click.echo('----------------------------------------\n')
+    click.echo('-----------------------------------------\n')
     progress_bar()
 
 
@@ -146,8 +174,7 @@ def progress_bar():
     list_len = len(new_list)
     num_items_done = 0
 
-    bar_fixed_width = 20
-    
+    bar_fixed_width = 40
 
     if list_len != 0:
         bar_increment_value = round(bar_fixed_width / list_len)
@@ -184,6 +211,8 @@ def list_():
 @click.option('--due', prompt='Due Date in mm-dd format')
 @click.option('--classname', prompt='Class Name')
 def add(item, due, classname):
+    click.echo(get_llm_item_dict("bio lab 2 thursday", "Data Structures, Algorithms, Biology, Mexican History"))
+
     if due == 'td':
         due = 'today'
     elif due == 'tm':

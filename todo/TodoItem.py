@@ -1,11 +1,14 @@
 import json
 import dateparser
 import os
+import openai
 
+# openai.api_key = os.getenv("OPENAI_API_KEY")
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
 with open(my_file) as f:
-    location = f.readline()
+    location = f.readline().strip()
+    openai.api_key = f.readline().strip()
 
 
 class TodoItem:
@@ -106,17 +109,12 @@ class TodoItem:
 
     @classmethod
     def remove_all_completed(cls):
-        with open(location) as json_file:
+        with open(location, "r") as json_file:
             data = json.load(json_file)
-
-        for item in data['todoitems']:
-            if item['is_done_check'] == '[X]':
-                data['todoitems'].remove(item)
-
-        for i in range(len(data['todoitems'])):
-            data['todoitems'][i]['number'] = i + 1
-
-        with open(location, 'w') as json_file:
+            data['todoitems'] = [obj for obj in data['todoitems'] if obj.get('is_done_check') != '[X]']
+            for i, obj in enumerate(data['todoitems']):
+                obj['number'] = i + 1
+        with open(location, "w") as json_file:
             json.dump(data, json_file, indent=4)
 
     @classmethod
