@@ -18,6 +18,7 @@ with open(my_file) as f:
     openai_api_key = f.readline().strip()
 
 my_LLM = OpenAI(openai_api_key)
+print(my_LLM)
 
 
 todo_list = TodoItem.load_objects_from_json()
