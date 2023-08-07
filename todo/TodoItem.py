@@ -5,7 +5,7 @@ import os
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
 with open(my_file) as f:
-    location = f.readline()
+    location = f.readline().strip('\n')
 
 
 class TodoItem:

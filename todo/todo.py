@@ -5,11 +5,19 @@ import datetime
 import calendar
 import dateparser
 from colorama import Fore, Style
+import openai
+from langchain.llms import OpenAI
+from langchain import PromptTemplate
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
 with open(my_file) as f:
-    location = f.readline()
+    lines = f.readlines()
+    location = lines[0].strip('\n')
+    gpt_key = lines[1].strip('\n')
+
+llm = OpenAI(openai_api_key=gpt_key)
+
 
 todo_list = TodoItem.load_objects_from_json()
 current_date = datetime.date.today()
@@ -20,6 +28,26 @@ tomorrow_weekday = tomorrow_.strftime('%A')
 weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
 days_in_month = calendar.monthrange(current_date.year, current_date.month)
 current_month = current_date.strftime('%m')
+MASTER_PROMPT = """You will be given a sentence that contains a To Do item, a date, and a class the item is for. 
+        Extract the data from the sentence and put it in a JSON format outlined below:\n  
+        {\n            
+        \"name\": \"NAME OF ITEM,\n
+        \"due_date\": \"DATE\",\n            
+        \"number\": 1,\n            
+        \"is_done_check\": \"[ ]\",\n            
+        \"class_name\": \"CLASS NAME\"\n    
+        }\n\n
+        The following list is a list of the possible classes the item can be for:
+        \n{classes}\n\n
+        When reading the sentence, interpret what class the item may fit under and make the value of  \"class_name\" the name of that class. 
+        If the class name is found, omit it from the \"name\" value of the item.
+        If the class name is not found, make the class name value \"None\"\n\n
+        SENTENCE: {sentence}"""
+
+def get_sentence_dict(sentence: str, classes: [str]):
+    # TODO: pass in parameters to prompt and print output
+    pass
+    
 
 def async_classes():
     click.echo('')
@@ -176,6 +204,7 @@ def main():
 
 @main.command('list')
 def list_():
+    print(get_sentence_dict('data structures linked list homework for tomorrow', ['Data Structures', 'Algorithms', 'Mexican History']))
     print_list()
 
 
