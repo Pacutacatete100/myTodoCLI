@@ -1,6 +1,6 @@
 import os
 import click
-from todo.TodoItem import TodoItem
+from todo.TodoItemDev import TodoItem
 import datetime
 import calendar
 import dateparser
@@ -129,6 +129,7 @@ def print_day_schedule(weekday, day):
         
 
 def print_list():
+    print('dev version')
     new_list = TodoItem.load_objects_from_json()
     click.echo('')
     click.echo(f'----- TODAY IS: {current_date.strftime(date_format_string).upper()} -----\n')
