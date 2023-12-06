@@ -39,11 +39,11 @@ def get_sentence_dict(sentence: str):
     # TODO: Check if date is in M-DD format 
 
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4-1106-preview",
         messages=[
             {
-            "role": "system",
-            "content": "You will be given a sentence that contains a To Do item, a date, and a class the item is for. Extract the data from the sentence and put it in the format outlined below:\n\n NAME OF ITEM\n DATE\n CLASS NAME\n\nOnly include the final values and omit any quotation marks, white spaces, new lines, commas, etc.\n\nThe following list is a list of the possible classes the item can be for:\nObject Oriented Programming, Concepts of Programming Languages, Science Fiction\n\nWhen reading the sentence, interpret what class the item may fit under and make the value of  \"CLASS NAME\" the name of that class. If the class name is found, omit it from the NAME OF ITEM value of the item. If the class name is not found, make the CLASS NAME value \"None\".\nIf the date has the name or part of the name of a month, interpret what number month it is and convert it into the \"MM-DD\" format.\nIf the date is the name of a weekday, \"today\", \"td\", \"tomorrow\", or \"tm\" leave it that way."
+                "role": "system",
+                "content": "You will be given a sentence that contains a To Do item, a date, and a class the item is for. Extract the data from the sentence and put it in the format outlined below:\n\n NAME OF ITEM\n DATE\n CLASS NAME\n\nOnly include the final values and omit any quotation marks, white spaces, new lines, commas, etc.\n\nThe following list is a list of the possible classes the item can be for:\nObject Oriented Programming, Concepts of Programming Languages, Science Fiction\n\nWhen reading the sentence, interpret what class the item may fit under and make the value of  \"CLASS NAME\" the name of that class. If the class name is found, omit it from the NAME OF ITEM value of the item. If the class name is not found, make the CLASS NAME value \"None\".\nIf the date has the name or part of the name of a month, interpret what number month it is and convert it into the \"MM-DD\" format.\nIf the date is the name of a weekday, \"today\", \"td\", \"tomorrow\", or \"tm\" leave it that way."
             },
             {
                 "role": "user",
@@ -216,6 +216,7 @@ def list_():
 def add(m):
     if m:  # manual mode
         click.echo(click.style('MANUAL MODE', fg='yellow'))
+
         item = click.prompt('Enter the new Item')
         due = click.prompt('Due Date in mm-dd format')
         classname = click.prompt('Enter the Class name')
@@ -223,8 +224,8 @@ def add(m):
         # TODO: Exception handling when generated format not correct
         item = click.prompt('Enter the new Item')
         generated_items = get_sentence_dict(item).splitlines()
-        print(*generated_items)
         item, due, classname = generated_items
+        print(*generated_items)
 
     # Common processing for both modes
     due = {'td': 'today', 'tm': 'tomorrow'}.get(due, due)
