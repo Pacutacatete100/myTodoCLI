@@ -14,8 +14,11 @@ from langchain.prompts.chat import (
     HumanMessagePromptTemplate,
 )
 
+from todo.MainTask import MainTask
+from todo.SubTask import SubTask
+
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
+my_file = os.path.join(THIS_FOLDER, 'secrets2.txt')
 with open(my_file) as f:
     lines = f.readlines()
     location = lines[0].strip('\n')
@@ -24,7 +27,7 @@ with open(my_file) as f:
 llm = OpenAI(openai_api_key=gpt_key)
 
 
-todo_list = TodoItem.load_objects_from_json()
+todo_list = TodoItem.load_objects_from_json(location)
 current_date = datetime.date.today()
 date_format_string = '%A %B %d %Y'
 tomorrow_ = current_date + datetime.timedelta(days=1)
@@ -129,8 +132,8 @@ def print_day_schedule(weekday, day):
         
 
 def print_list():
-    print('dev version')
-    new_list = TodoItem.load_objects_from_json()
+    print('#####  DEV VERSION  #####')
+    new_list = TodoItem.load_objects_from_json(location)
     click.echo('')
     click.echo(f'----- TODAY IS: {current_date.strftime(date_format_string).upper()} -----\n')
     click.echo('--------------- TODO LIST ------------------\n')
@@ -174,7 +177,7 @@ def process_date(due):
 def progress_bar():
     # progress bar based on the number of items in the todo list and the number of items that are done
     
-    new_list = TodoItem.load_objects_from_json()
+    new_list = TodoItem.load_objects_from_json(location)
     list_len = len(new_list)
     num_items_done = 0
 
@@ -218,22 +221,42 @@ def add(m):
         item = click.prompt('Enter the new Item')
         due = click.prompt('Due Date in mm-dd format')
         classname = click.prompt('Enter the Class name')
+
     else:  # inference mode
         # TODO: Exception handling when generated format not correct
         item = click.prompt('Enter the new Item')
         generated_items = get_sentence_dict(item).splitlines()
         item, due, classname = generated_items
-        print(*generated_items)
 
-    # Common processing for both modes
     due = {'td': 'today', 'tm': 'tomorrow'}.get(due, due)
     processed_due_date = process_date(due)
-    new_item = TodoItem(item, processed_due_date, len(todo_list) + 1, class_name=classname.title())
-    new_item.add_to_json(new_item, location)
-    
+
+    new_item = MainTask(item, processed_due_date, len(todo_list) + 1, classname=classname)
+
+    new_item.add_to_json(location)
+
     print_list()
+    
+@main.command('addsub')
+@click.option('--num', prompt='number of item you want to add a subtask to')
+@click.option('-m', is_flag=True)
+def addsub(num, m):
+    number = int(num)
+    if m:
+        click.echo(click.style('MANUAL MODE', fg='yellow'))
 
+        item = click.prompt('Enter the new Item')
+        due = click.prompt('Due Date in mm-dd format')
+    else:
+        print('AI not yet supported')
 
+    due = {'td': 'today', 'tm': 'tomorrow'}.get(due, due)
+    processed_due_date = process_date(due)
+
+    new_subtask = SubTask(item, processed_due_date, len(todo_list[number - 1].subtasks) + 1)
+
+    new_subtask.add_sub_to_json(location, number-1)
+    print_list()
 
 @main.command('done')
 @click.option('--num', prompt='Number of item you want to mark as completed or "all" to mark all items as completed')
