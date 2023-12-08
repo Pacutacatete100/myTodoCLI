@@ -5,7 +5,7 @@
             "due_date": "Thursday December 07 2023",
             "number": 1,
             "classname": "none",
-            "is_done_check": "[ ]",
+            "is_done_check": "[X]",
             "subtasks": []
         },
         {
@@ -16,9 +16,9 @@
             "is_done_check": "[ ]",
             "subtasks": [
                 {
-                    "subtask_name": "Subtask 1",
+                    "name": "Subtask 1",
                     "due_date": "2023-12-04",
-                    "subtask_number": 1,
+                    "number": 1,
                     "is_done_check": "[ ]"
                 }
             ]
@@ -49,6 +49,12 @@
                     "name": "adding subtask from scratch",
                     "due_date": "Thursday December 07 2023",
                     "number": 1,
+                    "is_done_check": "[X]"
+                },
+                {
+                    "name": "subtask 2",
+                    "due_date": "Friday December 08 2023",
+                    "number": 2,
                     "is_done_check": "[ ]"
                 }
             ]

@@ -1,4 +1,5 @@
 from todo.Task import Task
+from todo.SubTask import SubTask
 import json
 
 class MainTask(Task):
@@ -15,19 +16,19 @@ class MainTask(Task):
         if len(self.subtasks )<=0:
             return f' {str(self.number)}. {self.is_done_check} {self.name.title()}\n   Due: {self.due_date.title()}, Class: {self.classname.upper()}\n '
         else:
-            return f' {str(self.number)}. {self.is_done_check} {self.name.title()}\n   Due: {self.due_date.title()}, Class: {self.classname.upper()}\n    ┖╶╶╶> <subtask bar>\n'
+            return f' {str(self.number)}. {self.is_done_check} {self.name.title()}\n   Due: {self.due_date.title()}, Class: {self.classname.upper()}\n    ┖╶╶╶> {len(self.subtasks)} subtasks\n'
 
 
     @staticmethod
     def dict_to_task(task_dict):
         return MainTask(
-        name=task_dict['name'],
-        due_date=task_dict['due_date'],
-        number=task_dict['number'],
-        classname=task_dict['classname'],
-        is_done_check=task_dict['is_done_check'],
-        subtasks=task_dict['subtasks']
-    )
+            name=task_dict['name'],
+            due_date=task_dict['due_date'],
+            number=task_dict['number'],
+            classname=task_dict['classname'],
+            is_done_check=task_dict['is_done_check'],
+            subtasks=SubTask.dict_to_subtask(task_dict['subtasks'])
+        )
 
     def add_to_json(self, location):
         with open(location) as json_file:
@@ -38,6 +39,10 @@ class MainTask(Task):
 
         with open(location, 'w') as f:
             json.dump(data, f, indent=4)
+
+    def print_subtasks(self):
+        for s in self.subtasks:
+            print(s)
 
     def mark_as_completed(self):
         pass

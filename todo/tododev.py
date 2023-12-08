@@ -7,16 +7,12 @@ import dateparser
 from colorama import Fore, Style
 import openai
 from langchain.llms import OpenAI
-from langchain import PromptTemplate
-from langchain.prompts.chat import (
-    ChatPromptTemplate,
-    SystemMessagePromptTemplate,
-    HumanMessagePromptTemplate,
-)
 
 from todo.MainTask import MainTask
 from todo.SubTask import SubTask
+from todo.TaskController import TodoList
 
+# secret info
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'secrets2.txt')
 with open(my_file) as f:
@@ -26,7 +22,7 @@ with open(my_file) as f:
 
 llm = OpenAI(openai_api_key=gpt_key)
 
-
+# date processing variables
 todo_list = TodoItem.load_objects_from_json(location)
 current_date = datetime.date.today()
 date_format_string = '%A %B %d %Y'
@@ -37,6 +33,7 @@ weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 
 days_in_month = calendar.monthrange(current_date.year, current_date.month)
 current_month = current_date.strftime('%m')
 
+# task item inference
 def get_sentence_dict(sentence: str):
 
     response = openai.ChatCompletion.create(
@@ -130,7 +127,6 @@ def print_day_schedule(weekday, day):
         click.echo(f'-------- NO IN-PERSON CLASSES -----------\n')
         async_classes()
         
-
 def print_list():
     print('#####  DEV VERSION  #####')
     new_list = TodoItem.load_objects_from_json(location)
@@ -202,6 +198,7 @@ def progress_bar():
         click.echo('No Items In List')
 
 
+# CLI Commands
 @click.group('todo')
 def main():
     pass
@@ -234,7 +231,6 @@ def add(m):
     new_item = MainTask(item, processed_due_date, len(todo_list) + 1, classname=classname)
 
     new_item.add_to_json(location)
-
     print_list()
     
 @main.command('addsub')
@@ -257,6 +253,18 @@ def addsub(num, m):
 
     new_subtask.add_sub_to_json(location, number-1)
     print_list()
+
+@main.command('subs')
+@click.option('--num', prompt='What number item do you want to see the subtasks of')
+def subs(num):
+    number = int(num)
+
+    '''TODO: 
+        - figure out what this looks like in UI'''
+    
+    todo_list[number-1].print_subtasks()
+    todolist = TodoList(location)
+    todolist.subtask_progress_bar()
 
 @main.command('done')
 @click.option('--num', prompt='Number of item you want to mark as completed or "all" to mark all items as completed')
