@@ -7,6 +7,7 @@ import dateparser
 from colorama import Fore, Style
 import openai
 from langchain.llms import OpenAI
+import time
 
 from todo.MainTask import MainTask
 from todo.SubTask import SubTask
@@ -129,11 +130,13 @@ def print_day_schedule(weekday, day):
         async_classes()
         
 def print_list():
+
     print('#####  DEV VERSION  #####')
     new_list = TodoList()
-    click.echo('')
+    print('')
     click.echo(f'----- TODAY IS: {current_date.strftime(date_format_string).upper()} -----\n')
     click.echo('--------------- TODO LIST ------------------\n')
+    
     for ti in new_list:
         if ti.due_date == current_date.strftime(date_format_string) and ti.is_done_check == "[ ]":
             click.echo(click.style(ti.__str__(), fg='red'))
@@ -144,10 +147,11 @@ def print_list():
             click.echo(click.style(ti.__str__(), fg='yellow'))
         else:
             click.echo(ti)
-
+    
     print_day_schedule(current_weekday, 'today')
     click.echo('----------------------------------------\n')
     new_list.main_progress_bar()
+
 
 def process_date(due):
 
@@ -242,11 +246,8 @@ def subs(num):
 @main.command('done')
 @click.option('--num', prompt='Number of item you want to mark as completed or "all" to mark all items as completed')
 def done(num):
-    if num == 'all':
-        TodoItem.mark_all_complete()
-    else:
-        number = int(num)
-        todo_list.done(number)
+    number = int(num)
+    todo_list.done(number)
     print_list()
 
 
@@ -254,11 +255,7 @@ def done(num):
 @main.command('remove')
 @click.option('--num', prompt='Number of item you want to remove or "done" to remove all the completed items')
 def remove(num):
-    if num == 'done':
-        TodoItem.remove_all_completed()
-    else:
-        number = int(num)
-        todo_list[number - 1].remove_from_json(number)
+    todo_list.remove(num)
     print_list()
 
 

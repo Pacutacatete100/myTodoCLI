@@ -33,16 +33,10 @@ class SubTask(Task):
         with open(location, 'w') as f:
             json.dump(data, f, indent=4)
     
-    @staticmethod
-    def dict_to_subtask(sub_dict_list):
-        return [
-            SubTask(
-                name=subtask_dict['name'],
-                due_date=subtask_dict['due_date'],
-                number=subtask_dict['number'],
-                is_done_check=subtask_dict.get('is_done_check', '[ ]')
-            ) for subtask_dict in sub_dict_list
-        ]
+    @classmethod
+    def dict_to_subtask(cls, subtask_dicts):
+        # Using list comprehension for efficient conversion
+        return [cls(**subtask_dict) for subtask_dict in subtask_dicts]
     
     def subtask_progress_bar(self):
         pass

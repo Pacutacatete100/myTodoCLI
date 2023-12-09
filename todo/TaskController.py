@@ -2,13 +2,9 @@ import json
 import orjson
 import click
 import os
+
 from todo.MainTask import MainTask
 from todo.SubTask import SubTask
-
-'''TODO:
-    - create add function
-        - should take in MainTask object
-        - should also add that item to JSON here so that only TaskController.add() is called in CLI command definitino'''
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'secrets2.txt')
@@ -27,19 +23,13 @@ class TodoList:
     def __iter__(self):
         return iter(self.data)
     
-    def load_objects_from_json(self):  # makes json objects/dicts into MainTask objects
-        todo_list = []
-        with open(location, 'r') as file:
-            json_data = file.read()
+    def load_objects_from_json(self):
+        with open(location, 'rb') as file:
+            # Read and parse JSON data in one go
+            json_data = orjson.loads(file.read())
 
-        python_object = json.loads(json_data)
-        
-        todo_items = python_object.get('todoitems', [])
-
-        for item in todo_items:
-            todo_list.append(MainTask.dict_to_task(item))
-
-        return todo_list
+        # Directly create MainTask objects from the parsed data
+        return [MainTask.dict_to_task(item) for item in json_data.get('todoitems', [])]
     
     def update_json(self, number, property, new_value):
         with open(location, 'rb') as file:
@@ -98,4 +88,19 @@ class TodoList:
         pass
 
     def remove(self, number):
-        pass
+        with open(location) as json_file:
+            data = json.load(json_file)
+
+        if number == "done":
+            # Remove all items that are marked as done
+            data['todoitems'] = [item for item in data['todoitems'] if item['is_done_check'] != '[X]']
+        else:
+            # Remove a specific item by filtering
+            data['todoitems'] = [item for item in data['todoitems'] if item['number'] != number]
+            # Adjust the numbering for remaining items
+        for i, item in enumerate(data['todoitems'], start=1):
+            item['number'] = i
+
+        with open(location, 'w') as json_file:
+            json.dump(data, json_file, indent=4)
+        
