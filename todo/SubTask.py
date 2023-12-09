@@ -1,5 +1,5 @@
 from todo.Task import Task
-import json
+import ujson as json
 
 class SubTask(Task):
     # TODO: Complete implementation of subtask
@@ -12,6 +12,14 @@ class SubTask(Task):
 
     def __str__(self) -> str:
         return f' {str(self.number)}. {self.is_done_check} {self.name.title()}\n   Due: {self.due_date.title()}'
+    
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'due_date': self.due_date,
+            'number': self.number,
+            'is_done_check': self.is_done_check
+        }
 
     def add_sub_to_json(self, location, item_number):
         with open(location) as json_file:
@@ -38,7 +46,7 @@ class SubTask(Task):
     
     def subtask_progress_bar(self):
         pass
-    
+
     def mark_as_completed(self):
         pass
 

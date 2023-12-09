@@ -22,8 +22,9 @@ with open(my_file) as f:
 
 llm = OpenAI(openai_api_key=gpt_key)
 
+todo_list = TodoList() #main todo list
+
 # date processing variables
-todo_list = TodoItem.load_objects_from_json(location)
 current_date = datetime.date.today()
 date_format_string = '%A %B %d %Y'
 tomorrow_ = current_date + datetime.timedelta(days=1)
@@ -129,7 +130,7 @@ def print_day_schedule(weekday, day):
         
 def print_list():
     print('#####  DEV VERSION  #####')
-    new_list = TodoItem.load_objects_from_json(location)
+    new_list = TodoList()
     click.echo('')
     click.echo(f'----- TODAY IS: {current_date.strftime(date_format_string).upper()} -----\n')
     click.echo('--------------- TODO LIST ------------------\n')
@@ -146,8 +147,7 @@ def print_list():
 
     print_day_schedule(current_weekday, 'today')
     click.echo('----------------------------------------\n')
-    progress_bar()
-
+    new_list.main_progress_bar()
 
 def process_date(due):
 
@@ -169,33 +169,6 @@ def process_date(due):
             return dateparser.parse(date_str).strftime(date_format_string)
     else:
         return dateparser.parse(due).strftime(date_format_string)
-
-def progress_bar():
-    # progress bar based on the number of items in the todo list and the number of items that are done
-    
-    new_list = TodoItem.load_objects_from_json(location)
-    list_len = len(new_list)
-    num_items_done = 0
-
-    bar_fixed_width = 42
-    
-    if list_len != 0:
-        bar_increment_value = round(bar_fixed_width / list_len)
-
-        for i in new_list:
-            if i.is_done_check == '[X]':
-                num_items_done += 1
-        
-        progress_percent = round((num_items_done / list_len) * 100)
-
-        progress_bar = ' ' * bar_fixed_width
-
-        updated_progress_bar = progress_bar.replace(' ', '■', bar_increment_value*num_items_done)
-
-        click.echo(click.style(f'|{updated_progress_bar}| {progress_percent}%', fg='green'))
-
-    else:
-        click.echo('No Items In List')
 
 
 # CLI Commands
@@ -230,7 +203,7 @@ def add(m):
 
     new_item = MainTask(item, processed_due_date, len(todo_list) + 1, classname=classname)
 
-    new_item.add_to_json(location)
+    todo_list.add(new_item, location)
     print_list()
     
 @main.command('addsub')
@@ -263,7 +236,7 @@ def subs(num):
         - figure out what this looks like in UI'''
     
     todo_list[number-1].print_subtasks()
-    todolist = TodoList(location)
+    todolist = TodoList()
     todolist.subtask_progress_bar()
 
 @main.command('done')
@@ -273,7 +246,7 @@ def done(num):
         TodoItem.mark_all_complete()
     else:
         number = int(num)
-        todo_list[number - 1].mark_as_completed()
+        todo_list.done(number)
     print_list()
 
 
@@ -293,7 +266,7 @@ def remove(num):
 @click.option('--num', prompt='number of item you want to mark as incomplete')
 def undone(num):
     number = int(num)
-    todo_list[number - 1].mark_as_incomplete()
+    todo_list.undone(number)
     print_list()
 
 

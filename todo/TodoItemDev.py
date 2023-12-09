@@ -1,4 +1,4 @@
-import json
+import ujson as json
 import dateparser
 import os
 from types import SimpleNamespace

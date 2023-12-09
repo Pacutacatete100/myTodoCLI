@@ -1,25 +1,35 @@
 import json
+import orjson
 import click
+import os
 from todo.MainTask import MainTask
 from todo.SubTask import SubTask
 
 '''TODO:
-    - load objects from json
-    - progress bar for main tasks and for all subtasks
-    - modification functions for json should go here
-        - adding
-        - removing
-        - marking main tasks as complete/incomplete
-        - marking subtasks as complete/incomplete
-        - editing'''
+    - create add function
+        - should take in MainTask object
+        - should also add that item to JSON here so that only TaskController.add() is called in CLI command definitino'''
 
-class TodoList():
-    def __init__(self, location):
-        self.data = self.load_objects_from_json(location)
+THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+my_file = os.path.join(THIS_FOLDER, 'secrets2.txt')
+with open(my_file) as f:
+    location = f.readline().strip('\n')
+class TodoList:
+    def __init__(self):
+        self.data = self.load_objects_from_json()
 
-    def load_objects_from_json(self, file):  # makes json objects/dicts into MainTask objects
+    def __getitem__(self, index):
+        return self.data[index]
+
+    def __len__(self):
+        return len(self.data)
+
+    def __iter__(self):
+        return iter(self.data)
+    
+    def load_objects_from_json(self):  # makes json objects/dicts into MainTask objects
         todo_list = []
-        with open(file, 'r') as file:
+        with open(location, 'r') as file:
             json_data = file.read()
 
         python_object = json.loads(json_data)
@@ -30,6 +40,21 @@ class TodoList():
             todo_list.append(MainTask.dict_to_task(item))
 
         return todo_list
+    
+    def update_json(self, number, property, new_value):
+        with open(location, 'rb') as file:
+            data = orjson.loads(file.read())
+
+        for task in data['todoitems']:
+            if task['number'] == number:
+                if property in task:
+                    task[property] = new_value
+                else:
+                    print(f"Property '{property}' not found in the task.")
+                break
+
+        with open(location, 'wb') as file:
+            file.write(orjson.dumps(data, option=orjson.OPT_INDENT_2))
     
     def main_progress_bar(self):
         list_len = len(self.data)
@@ -55,8 +80,22 @@ class TodoList():
         else:
             click.echo('No Items In List')
 
-    def subtask_progress_bar(self):
+    def add(self, main_task, location):
+        self.data.append(main_task)
+        main_task.add_to_json(location)
 
+    def done(self, number):
+        if number == 'all':
+            for i in self.data:
+                self.update_json(i+1, 'is_done_check','[X]')
+        else:
+            self.update_json(number, 'is_done_check','[X]')
+
+    def undone(self, number):
+        self.update_json(number, 'is_done_check','[ ]')
+
+    def edit(self, number, update):
         pass
-        
-    
+
+    def remove(self, number):
+        pass

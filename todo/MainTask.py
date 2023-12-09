@@ -1,6 +1,6 @@
 from todo.Task import Task
 from todo.SubTask import SubTask
-import json
+import ujson as json
 
 class MainTask(Task):
     
@@ -17,8 +17,7 @@ class MainTask(Task):
             return f' {str(self.number)}. {self.is_done_check} {self.name.title()}\n   Due: {self.due_date.title()}, Class: {self.classname.upper()}\n '
         else:
             return f' {str(self.number)}. {self.is_done_check} {self.name.title()}\n   Due: {self.due_date.title()}, Class: {self.classname.upper()}\n    ┖╶╶╶> {len(self.subtasks)} subtasks\n'
-
-
+        
     @staticmethod
     def dict_to_task(task_dict):
         return MainTask(
@@ -29,6 +28,17 @@ class MainTask(Task):
             is_done_check=task_dict['is_done_check'],
             subtasks=SubTask.dict_to_subtask(task_dict['subtasks'])
         )
+    
+    def to_dict(self):
+        # Convert MainTask and its SubTasks to a dictionary
+        return {
+            'name': self.name,
+            'due_date': self.due_date,
+            'number': self.number,
+            'classname': self.classname,
+            'is_done_check': self.is_done_check,
+            'subtasks': [subtask.to_dict() for subtask in self.subtasks]
+        }
 
     def add_to_json(self, location):
         with open(location) as json_file:
@@ -63,5 +73,4 @@ class MainTask(Task):
         pass
 
     def add_subtask(self, subtask, item_number, location):
-        
         pass
