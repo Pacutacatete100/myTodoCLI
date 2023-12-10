@@ -1,56 +1,72 @@
 {
-    "todoitems": [
+  "todoitems": [
+    {
+      "name": "test 2 subtask",
+      "due_date": "Thursday December 07 2023",
+      "number": 1,
+      "classname": "none",
+      "is_done_check": "[ ]",
+      "subtasks": [
         {
-            "name": "test 2 subtask",
-            "due_date": "Thursday December 07 2023",
-            "number": 1,
-            "classname": "none",
-            "is_done_check": "[ ]",
-            "subtasks": [
-                {
-                    "name": "Subtask 1",
-                    "due_date": "2023-12-04",
-                    "number": 1,
-                    "is_done_check": "[ ]"
-                }
-            ]
+          "name": "Subtask 1",
+          "due_date": "2023-12-04",
+          "number": 1,
+          "is_done_check": "[X]"
         },
         {
-            "name": "orjson test",
-            "due_date": "Friday December 08 2023",
-            "number": 2,
-            "classname": "None",
-            "is_done_check": "[ ]",
-            "subtasks": []
-        },
-        {
-            "name": "multiple subtask item",
-            "due_date": "Saturday December 09 2023",
-            "number": 3,
-            "classname": "None",
-            "is_done_check": "[ ]",
-            "subtasks": [
-                {
-                    "name": "subtask 1",
-                    "due_date": "Sunday December 10 2023",
-                    "number": 1,
-                    "is_done_check": "[ ]"
-                },
-                {
-                    "name": "subtask 2",
-                    "due_date": "Sunday December 10 2023",
-                    "number": 2,
-                    "is_done_check": "[ ]"
-                }
-            ]
-        },
-        {
-            "name": "rando 2",
-            "due_date": "Sunday December 10 2023",
-            "number": 4,
-            "classname": "None",
-            "is_done_check": "[ ]",
-            "subtasks": []
+          "name": "testing structure change",
+          "due_date": "Sunday December 10 2023",
+          "number": 2,
+          "is_done_check": "[X]"
         }
-    ]
+      ]
+    },
+    {
+      "name": "orjson test",
+      "due_date": "Friday December 08 2023",
+      "number": 2,
+      "classname": "None",
+      "is_done_check": "[X]",
+      "subtasks": []
+    },
+    {
+      "name": "multiple subtask item",
+      "due_date": "Saturday December 09 2023",
+      "number": 3,
+      "classname": "None",
+      "is_done_check": "[ ]",
+      "subtasks": [
+        {
+          "name": "subtask 1",
+          "due_date": "Sunday December 10 2023",
+          "number": 1,
+          "is_done_check": "[ ]"
+        },
+        {
+          "name": "subtask 2",
+          "due_date": "Sunday December 10 2023",
+          "number": 2,
+          "is_done_check": "[ ]"
+        },
+        {
+          "name": "new subtask",
+          "due_date": "Saturday December 09 2023",
+          "number": 3,
+          "is_done_check": "[ ]"
+        },
+        {
+          "name": "test print subtask after add",
+          "due_date": "Saturday December 09 2023",
+          "number": 4,
+          "is_done_check": "[ ]"
+        },
+        {
+          "name": "test adding and printing subtask td",
+          "due_date": "Saturday December 09 2023",
+          "number": 5,
+          "is_done_check": "[ ]"
+        }
+      ]
+    }
+  ]
 }

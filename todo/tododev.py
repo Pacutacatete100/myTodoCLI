@@ -1,13 +1,10 @@
 import os
 import click
-from todo.TodoItemDev import TodoItem
 import datetime
 import calendar
 import dateparser
-from colorama import Fore, Style
 import openai
 from langchain.llms import OpenAI
-import time
 
 from todo.MainTask import MainTask
 from todo.SubTask import SubTask
@@ -139,14 +136,14 @@ def print_list():
     
     for ti in new_list:
         if ti.due_date == current_date.strftime(date_format_string) and ti.is_done_check == "[ ]":
-            click.echo(click.style(ti.__str__(), fg='red'))
+            click.echo(click.style(ti.str_with_bar(), fg='red') + '\n')
             # click.echo('\033[31;1m' + ti.__str__()), convert al color to this format, more color options
         elif ti.is_done_check == '[X]':
-            click.echo(click.style(ti.__str__(), fg='white'))
+            click.echo(click.style(ti.str_with_bar(), fg='white') + '\n')
         elif ti.due_date == tomorrow_.strftime(date_format_string):
-            click.echo(click.style(ti.__str__(), fg='yellow'))
+            click.echo(click.style(ti.str_with_bar(), fg='yellow') + '\n')
         else:
-            click.echo(ti)
+            print(ti.str_with_bar(),'\n')
     
     print_day_schedule(current_weekday, 'today')
     click.echo('----------------------------------------\n')
@@ -207,7 +204,7 @@ def add(m):
 
     new_item = MainTask(item, processed_due_date, len(todo_list) + 1, classname=classname)
 
-    todo_list.add(new_item, location)
+    todo_list.add(new_item)
     print_list()
     
 @main.command('addsub')
@@ -228,20 +225,36 @@ def addsub(num, m):
 
     new_subtask = SubTask(item, processed_due_date, len(todo_list[number - 1].subtasks) + 1)
 
-    new_subtask.add_sub_to_json(location, number-1)
-    print_list()
+    todo_list.add_sub(new_subtask, number-1)
+    # new_subtask.add_sub_to_json(location, number-1)
+
+    click.echo(todo_list[number -1].expanded_view())
+    #TODO change to only thing here is adding to todolist
+    #  - that add should update add it to the JSON
 
 @main.command('subs')
 @click.option('--num', prompt='What number item do you want to see the subtasks of')
 def subs(num):
     number = int(num)
+    click.echo(todo_list[number-1].expanded_view())
 
-    '''TODO: 
-        - figure out what this looks like in UI'''
-    
-    todo_list[number-1].print_subtasks()
-    todolist = TodoList()
-    todolist.subtask_progress_bar()
+@main.command('subdone')
+@click.option('--item', prompt='What number item do you want to mark a subtask as complete')
+@click.option('--sub', prompt='What number sub task do you want to mark complete')
+def subdone(item, sub):
+    item_number = int(item)
+    sub_number = int(sub)
+    todo_list.sub_done(item_number, sub_number)
+    print_list()
+
+@main.command('subundone')
+@click.option('--item', prompt='What number item do you want to mark a subtask as incomplete')
+@click.option('--sub', prompt='What number sub task do you want to mark incomplete')
+def subundone(item, sub):
+    item_number = int(item)
+    sub_number = int(sub)
+    todo_list.sub_undone(item_number, sub_number)
+    print_list()
 
 @main.command('done')
 @click.option('--num', prompt='Number of item you want to mark as completed or "all" to mark all items as completed')

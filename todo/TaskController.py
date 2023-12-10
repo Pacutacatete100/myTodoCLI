@@ -70,24 +70,69 @@ class TodoList:
         else:
             click.echo('No Items In List')
 
-    def add(self, main_task, location):
+    def add(self, main_task):
         self.data.append(main_task)
         main_task.add_to_json(location)
 
+    def add_sub(self, subtask, number):
+        self.data[number].add_subtask(subtask)
+        subtask.add_sub_to_json(location, number)
+
+
     def done(self, number):
+        self.data[number-1].mark_as_completed()
         if number == 'all':
             for i in self.data:
-                self.update_json(i+1, 'is_done_check','[X]')
+                self.update_json(i+1, 'is_done_check', '[X]')
         else:
-            self.update_json(number, 'is_done_check','[X]')
+            self.update_json(number, 'is_done_check', '[X]')
+    
+    #TODO: separate json writing from this class, have each object class handle its own data writing
 
     def undone(self, number):
+        self.data[number-1].mark_as_incomplete()
         self.update_json(number, 'is_done_check','[ ]')
+
+    def sub_done(self, item, subtask):
+        self.data[item-1].subtasks[subtask-1].mark_as_completed()
+
+        with open(location, 'rb') as file:
+            data = orjson.loads(file.read())
+
+        for task in data['todoitems']:
+            if task['number'] == item:
+                for sub in task['subtasks']:
+                    if sub['number'] == subtask:
+                        sub['is_done_check'] = '[X]'
+
+        #TODO: check if all subs are done, mark main item as complete
+
+        with open(location, 'wb') as file:
+            file.write(orjson.dumps(data, option=orjson.OPT_INDENT_2))
+
+    def sub_undone(self, item, subtask):
+        self.data[item-1].subtasks[subtask-1].mark_as_incomplete()
+
+        with open(location, 'rb') as file:
+            data = orjson.loads(file.read())
+
+        for task in data['todoitems']:
+            if task['number'] == item:
+                for sub in task['subtasks']:
+                    if sub['number'] == subtask:
+                        sub['is_done_check'] = '[ ]'
+
+        with open(location, 'wb') as file:
+            file.write(orjson.dumps(data, option=orjson.OPT_INDENT_2))
 
     def edit(self, number, update):
         pass
 
+    def edit_sub(self, item, sub, update):
+        pass
+
     def remove(self, number):
+        
         with open(location) as json_file:
             data = json.load(json_file)
 
@@ -96,6 +141,7 @@ class TodoList:
             data['todoitems'] = [item for item in data['todoitems'] if item['is_done_check'] != '[X]']
         else:
             # Remove a specific item by filtering
+            number = int(number)
             data['todoitems'] = [item for item in data['todoitems'] if item['number'] != number]
             # Adjust the numbering for remaining items
         for i, item in enumerate(data['todoitems'], start=1):

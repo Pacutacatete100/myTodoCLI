@@ -42,10 +42,10 @@ class SubTask(Task):
         pass
 
     def mark_as_completed(self):
-        pass
+        self.is_done_check = '[X]'
 
     def mark_as_incomplete(self):
-        pass
+        self.is_done_check = '[ ]'
 
     def edit_name(self, edited_name):
         pass
