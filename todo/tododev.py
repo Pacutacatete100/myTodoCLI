@@ -264,7 +264,6 @@ def done(num):
     print_list()
 
 
-
 @main.command('remove')
 @click.option('--num', prompt='Number of item you want to remove or "done" to remove all the completed items')
 def remove(num):

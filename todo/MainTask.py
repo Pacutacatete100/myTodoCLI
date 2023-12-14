@@ -1,9 +1,12 @@
 from todo.Task import Task
 from todo.SubTask import SubTask
 import ujson as json
-#┠
+import os
 
-#┖
+THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+my_file = os.path.join(THIS_FOLDER, 'secrets2.txt')
+with open(my_file) as f:
+    location = f.readline().strip('\n')
 class MainTask(Task):
     
     def __init__(self, name, due_date, number, classname, is_done_check='[ ]', subtasks=[]):
@@ -123,8 +126,28 @@ class MainTask(Task):
     def mark_as_completed(self):
         self.is_done_check = '[X]'
 
+        with open(location) as json_file:
+            data = json.load(json_file)
+
+        for task in data['todoitems']:
+            if task['number'] == self.number:
+                task['is_done_check'] = '[X]'
+
+        with open(location, 'w') as f:
+            json.dump(data, f, indent=4)
+
     def mark_as_incomplete(self):
         self.is_done_check = '[ ]'
+
+        with open(location) as json_file:
+            data = json.load(json_file)
+
+        for task in data['todoitems']:
+            if task['number'] == self.number:
+                task['is_done_check'] = '[ ]'
+
+        with open(location, 'w') as f:
+            json.dump(data, f, indent=4)
 
     def edit_name(self, edited_name):
         pass
