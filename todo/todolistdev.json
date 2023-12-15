@@ -52,7 +52,7 @@
                     "name": "new subtask",
                     "due_date": "Saturday December 09 2023",
                     "number": 3,
-                    "is_done_check": "[ ]"
+                    "is_done_check": "[X]"
                 },
                 {
                     "name": "test print subtask after add",
@@ -97,6 +97,35 @@
                     "is_done_check": "[ ]"
                 }
             ]
+        },
+        {
+            "name": "EDITED test",
+            "due_date": "Saturday December 16 2023",
+            "number": 6,
+            "classname": "None",
+            "is_done_check": "[ ]",
+            "subtasks": [
+                {
+                    "name": "color test sub",
+                    "due_date": "Friday December 15 2023",
+                    "number": 1,
+                    "is_done_check": "[ ]"
+                },
+                {
+                    "name": "new color test sub",
+                    "due_date": "Saturday December 16 2023",
+                    "number": 2,
+                    "is_done_check": "[X]"
+                }
+            ]
+        },
+        {
+            "name": "random test",
+            "due_date": "Friday December 15 2023",
+            "number": 7,
+            "classname": "none",
+            "is_done_check": "[ ]",
+            "subtasks": []
         }
     ]
 }

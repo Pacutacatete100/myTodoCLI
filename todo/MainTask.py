@@ -2,6 +2,9 @@ from todo.Task import Task
 from todo.SubTask import SubTask
 import ujson as json
 import os
+from colorama import Fore, Style
+from todo.DateProcessor import DateProcessor
+
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'secrets2.txt')
@@ -27,20 +30,44 @@ class MainTask(Task):
             return f' {str(self.number)}. {self.is_done_check} {self.name.title()}\n   Due: {self.due_date.title()}, Class: {self.classname.upper()}\n    ┗━━🞂 {self.subtask_progress_bar()}  {self.number_of_subs_complete()}/{len(self.subtasks)}'
         
     def expanded_view(self) -> str:
-        lines = [
-            f" {self.number}. {self.is_done_check} {self.name.title()}",
-            f"   Due: {self.due_date.title()}, Class: {self.classname.upper()}"
-        ]
-        lines.append('   ┃')
-        for i, subtask in enumerate(self.subtasks):
-            if i == len(self.subtasks) - 1:  # Check if it's the last subtask
-                prefix = "┗━"
-                lines.append(f"   {prefix} {subtask.number}. {subtask.is_done_check} {subtask.name.title()}")
-                lines.append(f"        Due: {subtask.due_date}")  # No vertical line for the last subtask
+        lines = []
+
+        # Determine color for main task
+        if self.is_done_check == '[X]':
+            due_date_color = Fore.GREEN
+        else:
+            if self.due_date == DateProcessor.today():
+                due_date_color = Fore.RED
+            elif self.due_date == DateProcessor.tomorrow():
+                due_date_color = Fore.YELLOW
             else:
-                prefix = "┣━"
-                lines.append(f"   {prefix} {subtask.number}. {subtask.is_done_check} {subtask.name.title()}")
-                lines.append(f"   ┃    Due: {subtask.due_date}")
+                due_date_color = Style.RESET_ALL
+
+        lines.append(f" {due_date_color}{self.number}. {self.is_done_check} {self.name.title()}{Style.RESET_ALL}")
+        lines.append(f"   {due_date_color}Due: {self.due_date.title()}, Class: {self.classname.upper()}{Style.RESET_ALL}")
+        lines.append(f'   {due_date_color}┃{Style.RESET_ALL}')
+
+        for i, subtask in enumerate(self.subtasks):
+            # Determine color for subtask
+            if subtask.is_done_check == '[X]':
+                subtask_color = Fore.GREEN
+            else:
+                # Determine color for subtask due date
+                if subtask.due_date == DateProcessor.current_date.strftime(DateProcessor.date_format_string): # if subtask due date is today
+                    subtask_color = Fore.RED
+                elif subtask.due_date == DateProcessor.tomorrow_.strftime(DateProcessor.date_format_string): # if subtask due date is tomorrow
+                    subtask_color = Fore.YELLOW
+                else:
+                    subtask_color = Style.RESET_ALL
+
+            if i == len(self.subtasks) - 1:  # Check if it's the last subtask
+                prefix = f"{due_date_color}┗━{Style.RESET_ALL}"
+                lines.append(f"   {prefix} {subtask_color}{subtask.number}. {subtask.is_done_check} {subtask.name.title()}{Style.RESET_ALL}")
+                lines.append(f"        {subtask_color}Due: {subtask.due_date}{Style.RESET_ALL}")  # No vertical line for the last subtask
+            else:
+                prefix = f"{due_date_color}┣━{Style.RESET_ALL}"
+                lines.append(f"   {prefix} {subtask_color}{subtask.number}. {subtask.is_done_check} {subtask.name.title()}{Style.RESET_ALL}")
+                lines.append(f"   {due_date_color}┃{Style.RESET_ALL}    {subtask_color}Due: {subtask.due_date}{Style.RESET_ALL}")
 
         return '\n'.join(lines)
 
@@ -150,15 +177,61 @@ class MainTask(Task):
             json.dump(data, f, indent=4)
 
     def edit_name(self, edited_name):
-        pass
+        self.name = edited_name
+
+        with open(location) as json_file:
+            data = json.load(json_file)
+        
+        for task in data['todoitems']:
+            if task['number'] == self.number:
+                task['name'] = edited_name
+        
+        with open(location, 'w') as f:
+            json.dump(data, f, indent=4)
 
     def edit_date(self, edited_date):
-        pass
+        self.name = edited_date
+
+        with open(location) as json_file:
+            data = json.load(json_file)
+        
+        for task in data['todoitems']:
+            if task['number'] == self.number:
+                task['due_date'] = edited_date
+        
+        with open(location, 'w') as f:
+            json.dump(data, f, indent=4)
 
     def edit_classname(self, edited_classname):
-        pass
+        self.name = edited_classname
 
-    def remove_from_json(self):
-        pass
+        with open(location) as json_file:
+            data = json.load(json_file)
+        
+        for task in data['todoitems']:
+            if task['number'] == self.number:
+                task['classname'] = edited_classname
+        
+        with open(location, 'w') as f:
+            json.dump(data, f, indent=4)
+
+    def remove_from_json(self, number):
+        with open(location) as json_file:
+            data = json.load(json_file)
+
+        if number == "done":
+            # Remove all items that are marked as done
+            data['todoitems'] = [item for item in data['todoitems'] if item['is_done_check'] != '[X]']
+        else:
+            # Remove a specific item by filtering
+            number = int(number)
+            data['todoitems'] = [item for item in data['todoitems'] if item['number'] != number]
+            # Adjust the numbering for remaining items
+        for i, item in enumerate(data['todoitems'], start=1):
+            item['number'] = i
+
+        # Write the updated data back to the JSON file
+        with open(location, 'w') as json_file:
+            json.dump(data, json_file, indent=4)
 
     

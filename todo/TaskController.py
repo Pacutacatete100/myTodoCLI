@@ -5,6 +5,7 @@ import os
 
 from todo.MainTask import MainTask
 from todo.SubTask import SubTask
+from todo.DateProcessor import DateProcessor
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'secrets2.txt')
@@ -30,21 +31,6 @@ class TodoList:
 
         # Directly create MainTask objects from the parsed data
         return [MainTask.dict_to_task(item) for item in json_data.get('todoitems', [])]
-    
-    def update_json(self, number, property, new_value):
-        with open(location, 'rb') as file:
-            data = orjson.loads(file.read())
-
-        for task in data['todoitems']:
-            if task['number'] == number:
-                if property in task:
-                    task[property] = new_value
-                else:
-                    print(f"Property '{property}' not found in the task.")
-                break
-
-        with open(location, 'wb') as file:
-            file.write(orjson.dumps(data, option=orjson.OPT_INDENT_2))
     
     def main_progress_bar(self):
         list_len = len(self.data)
@@ -73,10 +59,12 @@ class TodoList:
     def add(self, main_task):
         self.data.append(main_task)
         main_task.add_to_json(location)
+        #TODO remove need for add_to_json
 
     def add_sub(self, subtask, number):
         self.data[number].add_subtask(subtask)
         subtask.add_sub_to_json(location, number)
+        #TODO remove need for add_sub_to_json
 
     def done(self, number):
         if number == 'all':
@@ -84,9 +72,6 @@ class TodoList:
                 i.mark_as_completed()
         else:
             self.data[int(number)-1].mark_as_completed()
-
-    
-    #TODO: separate json writing from this class, have each object class handle its own data writing
 
     def undone(self, number):
         if number == 'all':
@@ -101,41 +86,35 @@ class TodoList:
         if self.data[item-1].all_subtasks_complete():
             self.data[item-1].mark_as_completed()
 
-
-
-        #TODO: check if all subs are done, mark main item as complete
-
-
     def sub_undone(self, item, subtask):
         self.data[item-1].subtasks[subtask-1].mark_as_incomplete(item)
         if self.data[item-1].is_done_check == '[X]':
             self.data[item-1].mark_as_incomplete()
 
+    def edit(self, number, update_part, update):
+        for i in self.data:
+            if i.number == int(number):
+                if update_part == 'item':
+                    i.edit_name(update)
+                elif update_part == 'date':
+                    i.edit_date(DateProcessor.process_date(update))
+                elif update_part == 'class':
+                    i.edit_classname(update)
+                else:  
+                    click.echo('Invalid Update Part')
 
-    def edit(self, number, update):
-        pass
-
-    def edit_sub(self, item, sub, update):
+    def edit_sub(self, item, sub, update_part, update):
         pass
 
     def remove(self, number):
-        del self.data[int(number)-1]
-        
-        with open(location) as json_file:
-            data = json.load(json_file)
-
-        if number == "done":
-            # Remove all items that are marked as done
-            data['todoitems'] = [item for item in data['todoitems'] if item['is_done_check'] != '[X]']
+        if number == 'done':
+            for i in self.data:
+                if i.is_done_check == '[X]':
+                    self.data.remove(i)
+                    i.remove_from_json(i.number)
         else:
-            # Remove a specific item by filtering
-            number = int(number)
-            data['todoitems'] = [item for item in data['todoitems'] if item['number'] != number]
-            # Adjust the numbering for remaining items
-        for i, item in enumerate(data['todoitems'], start=1):
-            item['number'] = i
-
-        with open(location, 'w') as json_file:
-            json.dump(data, json_file, indent=4)
+            item_to_remove = self.data[int(number)-1]
+            self.data.remove(item_to_remove)
+            item_to_remove.remove_from_json(number)
 
         

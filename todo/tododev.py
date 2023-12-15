@@ -9,6 +9,7 @@ from langchain.llms import OpenAI
 from todo.MainTask import MainTask
 from todo.SubTask import SubTask
 from todo.TaskController import TodoList
+from todo.DateProcessor import DateProcessor
 
 # secret info
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
@@ -135,12 +136,11 @@ def print_list():
     click.echo('--------------- TODO LIST ------------------\n')
     
     for ti in new_list:
-        if ti.due_date == current_date.strftime(date_format_string) and ti.is_done_check == "[ ]":
+        if ti.is_done_check == '[X]':
+            click.echo(click.style(ti.str_with_bar(), fg='green') + '\n')
+        elif ti.due_date == DateProcessor.today() and ti.is_done_check == "[ ]":
             click.echo(click.style(ti.str_with_bar(), fg='red') + '\n')
-            # click.echo('\033[31;1m' + ti.__str__()), convert al color to this format, more color options
-        elif ti.is_done_check == '[X]':
-            click.echo(click.style(ti.str_with_bar(), fg='white') + '\n')
-        elif ti.due_date == tomorrow_.strftime(date_format_string):
+        elif ti.due_date == DateProcessor.tomorrow() and ti.is_done_check == "[ ]":
             click.echo(click.style(ti.str_with_bar(), fg='yellow') + '\n')
         else:
             print(ti.str_with_bar(),'\n')
@@ -148,29 +148,7 @@ def print_list():
     print_day_schedule(current_weekday, 'today')
     click.echo('----------------------------------------\n')
     new_list.main_progress_bar()
-
-
-def process_date(due):
-
-    if due in weekdays:
-        last_weekday = dateparser.parse(due).strftime('%m-%d')
-        last_weekday_nums = last_weekday.split('-')
-
-        if (int(last_weekday_nums[1]) + 7) > days_in_month[1]: #if weekday entered is after end of month
-            date_str = f'{int(current_month) + 1}-{(int(last_weekday_nums[1]) + 7) - days_in_month[1]}'
-            return dateparser.parse(date_str).strftime(date_format_string)
-
-        elif due.upper() == current_weekday.upper():
-            date_str = f'{int(current_month)}-{(int(last_weekday_nums[1]) + 7)}' #if weekday entered is same as current day 
-            return dateparser.parse(date_str).strftime(date_format_string)
-
-        else:
-            next_weekday_num = int(last_weekday_nums[1]) + 7
-            date_str = f'{last_weekday_nums[0]}-{str(next_weekday_num)}'
-            return dateparser.parse(date_str).strftime(date_format_string)
-    else:
-        return dateparser.parse(due).strftime(date_format_string)
-
+    #TODO: change color in MainTask.py
 
 # CLI Commands
 @click.group('todo')
@@ -199,8 +177,7 @@ def add(m):
         generated_items = get_sentence_dict(item).splitlines()
         item, due, classname = generated_items
 
-    due = {'td': 'today', 'tm': 'tomorrow'}.get(due, due)
-    processed_due_date = process_date(due)
+    processed_due_date = DateProcessor.process_date(due)
 
     new_item = MainTask(item, processed_due_date, len(todo_list) + 1, classname=classname)
 
@@ -220,17 +197,13 @@ def addsub(num, m):
     else:
         print('AI not yet supported')
 
-    due = {'td': 'today', 'tm': 'tomorrow'}.get(due, due)
-    processed_due_date = process_date(due)
+    processed_due_date = DateProcessor.process_date(due)
 
     new_subtask = SubTask(item, processed_due_date, len(todo_list[number - 1].subtasks) + 1)
 
     todo_list.add_sub(new_subtask, number-1)
-    # new_subtask.add_sub_to_json(location, number-1)
 
     click.echo(todo_list[number -1].expanded_view())
-    #TODO change to only thing here is adding to todolist
-    #  - that add should update add it to the JSON
 
 @main.command('subs')
 @click.option('--num', prompt='What number item do you want to see the subtasks of')
@@ -299,7 +272,7 @@ def class_(classname):
 @main.command('date')
 @click.option('--duedate', prompt='Date in mm-dd format')
 def date(duedate):
-    formatted_due_date = process_date(duedate)
+    formatted_due_date = DateProcessor.process_date(duedate)
     due_date_weekday = dateparser.parse(duedate).strftime('%A')
     click.echo('')
     click.echo(f'--------------- DUE {formatted_due_date.upper()} ---------------\n')
@@ -335,7 +308,18 @@ def tomorrow():
 @click.option('--edited', prompt='enter the edited part')
 def edit(num, part, edited):
     number = int(num)
-    todo_list[number - 1].edit(part, edited)
+    todo_list.edit(number, part, edited)
+    print_list()
+
+@main.command('editsub')
+@click.option('--item', prompt='the number of the item you want to edit')
+@click.option('--sub', prompt='the number of the subtask you want to edit')
+@click.option('--part', prompt='enter what part you want to edit (item, date)')
+@click.option('--edited', prompt='enter the edited part')
+def editsub(item, sub, part, edited):
+    item_number = int(item)
+    sub_number = int(sub)
+    todo_list[item_number - 1].subtasks[sub_number - 1].edit(part, edited)
     print_list()
 
 
