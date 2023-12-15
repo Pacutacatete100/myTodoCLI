@@ -1,4 +1,4 @@
-"#myTodoCLI" 
+# myTodoCLI 
 
 JSON File Initial State:
 ```
