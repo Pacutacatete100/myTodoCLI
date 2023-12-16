@@ -5,7 +5,7 @@ import os
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
 with open(my_file) as f:
-    location = f.readline()
+    location = f.readline().strip('\n')
 
 
 class TodoItem:
@@ -106,16 +106,18 @@ class TodoItem:
 
     @classmethod
     def remove_all_completed(cls):
-        with open(location) as json_file:
+        # Load the data from the JSON file
+        with open(location, 'r') as json_file:
             data = json.load(json_file)
 
-        for item in data['todoitems']:
-            if item['is_done_check'] == '[X]':
-                data['todoitems'].remove(item)
+        # Filter out items where 'is_done_check' is '[X]'
+        data['todoitems'] = [item for item in data['todoitems'] if item['is_done_check'] != '[X]']
 
-        for i in range(len(data['todoitems'])):
-            data['todoitems'][i]['number'] = i + 1
+        # Update the numbering
+        for i, item in enumerate(data['todoitems']):
+            item['number'] = i + 1
 
+        # Save the updated data back to the JSON file
         with open(location, 'w') as json_file:
             json.dump(data, json_file, indent=4)
 

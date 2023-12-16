@@ -5,11 +5,24 @@ import datetime
 import calendar
 import dateparser
 from colorama import Fore, Style
+import openai
+from langchain.llms import OpenAI
+from langchain import PromptTemplate
+from langchain.prompts.chat import (
+    ChatPromptTemplate,
+    SystemMessagePromptTemplate,
+    HumanMessagePromptTemplate,
+)
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
 with open(my_file) as f:
-    location = f.readline()
+    lines = f.readlines()
+    location = lines[0].strip('\n')
+    gpt_key = lines[1].strip('\n')
+
+llm = OpenAI(openai_api_key=gpt_key)
+
 
 todo_list = TodoItem.load_objects_from_json()
 current_date = datetime.date.today()
@@ -21,18 +34,38 @@ weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 
 days_in_month = calendar.monthrange(current_date.year, current_date.month)
 current_month = current_date.strftime('%m')
 
+def get_sentence_dict(sentence: str):
+    # TODO: extract 3 parts of todo item from string and pass into add function
+    # TODO: Check if date is in M-DD format 
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4-1106-preview",
+        messages=[
+            {
+                "role": "system",
+                "content": "You will be given a sentence that contains a To Do item, a date, and a class the item is for. Extract the data from the sentence and put it in the format outlined below:\n\n NAME OF ITEM\n DATE\n CLASS NAME\n\nOnly include the final values and omit any quotation marks, white spaces, new lines, commas, etc.\n\nThe following list is a list of the possible classes the item can be for:\nObject Oriented Programming, Concepts of Programming Languages, Science Fiction\n\nWhen reading the sentence, interpret what class the item may fit under and make the value of  \"CLASS NAME\" the name of that class. If the class name is found, omit it from the NAME OF ITEM value of the item. If the class name is not found, make the CLASS NAME value \"None\".\nIf the date has the name or part of the name of a month, interpret what number month it is and convert it into the \"MM-DD\" format.\nIf the date is the name of a weekday, \"today\", \"td\", \"tomorrow\", or \"tm\" leave it that way."
+            },
+            {
+                "role": "user",
+                "content": sentence
+            }
+        ],
+    temperature=0,
+    max_tokens=256,
+    top_p=1,
+    frequency_penalty=0,
+    presence_penalty=0
+)
+    return response['choices'][0]['message']['content']
+
 def async_classes():
     click.echo('')
     click.echo('\033[35;1m' + '-------- ASYNCHRONOUS CLASSES -----------\n')
-        
-    click.echo('\033[35;1m' + 'DATA STRUCTURES II | STRUCT')
-    click.echo('\033[35;1m' + ' - ASYNCHRONOUS')
-    click.echo('\033[35;1m' + ' - TONY LOWE')
 
-    click.echo('\033[35;1m' + 'COMPUTER SYSTEMS I | SYST')
+    click.echo('\033[35;1m' + 'OBJECT ORIENTED SOFTWARE DEVELOPMENT | OBJ')
     click.echo('\033[35;1m' + ' - ASYNCHRONOUS')
-    click.echo('\033[35;1m' + ' - ZHEN HUANG')
-    click.echo('\033[35;1m' + ' - OPTIONAL ZOOM MEETING WEDNESDAYS 9:30 a.m. - 10:30 a.m.')
+    click.echo('\033[35;1m' + ' - CHRISTOPHER HIELD')
+    click.echo('\033[35;1m' + ' - LIVE LECTURES HELD MONDAY & WEDNESDAY 11:50 a.m. to 1:20 p.m.')
 
     click.echo('\033[0m' + '')
 
@@ -42,9 +75,9 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('SOPHOMORE LAB APPLIED COMPUTING | APPCOMP', fg='cyan'))
-        click.echo(click.style(' - 1:30 p.m. to 3:00 p.m.', fg='cyan'))
-        click.echo(click.style(' - CDM CENTER 224', fg='cyan'))
+        click.echo(click.style('PROGRAMMING LANGUAGE CONCEPTS | LANG', fg='cyan'))
+        click.echo(click.style(' - 11:50 a.m. to 1:20 p.m.', fg='cyan'))
+        click.echo(click.style(' - CDM CENTER 218', fg='cyan'))
         click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
         click.echo(click.style(' - CORIN PITCHER', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
@@ -55,11 +88,11 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('DISCRETE MATH II | MATH', fg='cyan'))
-        click.echo(click.style(' - 10:10 a.m. to 11:40 p.m.', fg='cyan'))
-        click.echo(click.style(' - 14 E JACKSON ROOM 406', fg='cyan'))
-        click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
-        click.echo(click.style(' - ITIR MOGULTAY-ROGERS', fg='cyan'))
+        click.echo(click.style('SCIENDE FICTION | SCI', fg='cyan'))
+        click.echo(click.style(' - 2:40 p.m. to 4:10 p.m.', fg='cyan'))
+        click.echo(click.style(' - ARTS AND LETTERS HALL 201', fg='cyan'))
+        click.echo(click.style(' - LINCOLN PARK CAMPUS', fg='cyan'))
+        click.echo(click.style(' - REBECCA JOHNS-TRISSLER', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
@@ -68,9 +101,9 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('SOPHOMORE LAB APPLIED COMPUTING | APPCOMP', fg='cyan'))
-        click.echo(click.style(' - 1:30 p.m. to 3:00 p.m.', fg='cyan'))
-        click.echo(click.style(' - CDM CENTER 224', fg='cyan'))
+        click.echo(click.style('PROGRAMMING LANGUAGE CONCEPTS | LANG', fg='cyan'))
+        click.echo(click.style(' - 11:50 a.m. to 1:20 p.m.', fg='cyan'))
+        click.echo(click.style(' - CDM CENTER 218', fg='cyan'))
         click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
         click.echo(click.style(' - CORIN PITCHER', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
@@ -81,11 +114,11 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('DISCRETE MATH II | MATH', fg='cyan'))
-        click.echo(click.style(' - 10:10 a.m. to 11:40 p.m.', fg='cyan'))
-        click.echo(click.style(' - 14 E JACKSON ROOM 406', fg='cyan'))
-        click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
-        click.echo(click.style(' - ITIR MOGULTAY-ROGERS', fg='cyan'))
+        click.echo(click.style('SCIENDE FICTION | SCI', fg='cyan'))
+        click.echo(click.style(' - 2:40 p.m. to 4:10 p.m.', fg='cyan'))
+        click.echo(click.style(' - ARTS AND LETTERS HALL 201', fg='cyan'))
+        click.echo(click.style(' - LINCOLN PARK CAMPUS', fg='cyan'))
+        click.echo(click.style(' - REBECCA JOHNS-TRISSLER', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
@@ -148,7 +181,6 @@ def progress_bar():
 
     bar_fixed_width = 20
     
-
     if list_len != 0:
         bar_increment_value = round(bar_fixed_width / list_len)
 
@@ -180,19 +212,29 @@ def list_():
 
 
 @main.command('add')
-@click.option('--item', prompt='Enter the new Item')
-@click.option('--due', prompt='Due Date in mm-dd format')
-@click.option('--classname', prompt='Class Name')
-def add(item, due, classname):
-    if due == 'td':
-        due = 'today'
-    elif due == 'tm':
-        due = 'tomorrow'
+@click.option('-m', is_flag=True)
+def add(m):
+    if m:  # manual mode
+        click.echo(click.style('MANUAL MODE', fg='yellow'))
 
+        item = click.prompt('Enter the new Item')
+        due = click.prompt('Due Date in mm-dd format')
+        classname = click.prompt('Enter the Class name')
+    else:  # inference mode
+        # TODO: Exception handling when generated format not correct
+        item = click.prompt('Enter the new Item')
+        generated_items = get_sentence_dict(item).splitlines()
+        item, due, classname = generated_items
+        print(*generated_items)
+
+    # Common processing for both modes
+    due = {'td': 'today', 'tm': 'tomorrow'}.get(due, due)
     processed_due_date = process_date(due)
-    new_item = TodoItem(item, processed_due_date, len(todo_list) + 1, class_name=classname)
+    new_item = TodoItem(item, processed_due_date, len(todo_list) + 1, class_name=classname.title())
     new_item.add_to_json(new_item, location)
+    
     print_list()
+
 
 
 @main.command('done')
@@ -204,6 +246,7 @@ def done(num):
         number = int(num)
         todo_list[number - 1].mark_as_completed()
     print_list()
+
 
 
 @main.command('remove')
