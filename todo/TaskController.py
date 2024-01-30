@@ -8,7 +8,7 @@ from todo.SubTask import SubTask
 from todo.DateProcessor import DateProcessor
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-my_file = os.path.join(THIS_FOLDER, 'secrets2.txt')
+my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
 with open(my_file) as f:
     location = f.readline().strip('\n')
 class TodoList:

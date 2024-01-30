@@ -13,7 +13,7 @@ from todo.DateProcessor import DateProcessor
 
 # secret info
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-my_file = os.path.join(THIS_FOLDER, 'secrets2.txt')
+my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
 with open(my_file) as f:
     lines = f.readlines()
     location = lines[0].strip('\n')
