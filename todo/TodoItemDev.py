@@ -1,9 +1,11 @@
-import json
+import ujson as json
 import dateparser
 import os
+from types import SimpleNamespace
+from todo.MainTask import MainTask
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
+my_file = os.path.join(THIS_FOLDER, 'secrets2.txt')
 with open(my_file) as f:
     location = f.readline().strip('\n')
 
@@ -121,12 +123,17 @@ class TodoItem:
         with open(location, 'w') as json_file:
             json.dump(data, json_file, indent=4)
 
-    @classmethod
-    def load_objects_from_json(cls):  # makes json objects/dicts into python objects
+    @staticmethod
+    def load_objects_from_json(file):  # makes json objects/dicts into MainTask objects
         todo_list = []
-        with open(location, 'r') as json_file:
-            todo_items = json.loads(json_file.read())
-            for i in todo_items['todoitems']:
-                todo_list.append(cls(**i))
+        with open(file, 'r') as file:
+            json_data = file.read()
+
+        python_object = json.loads(json_data)
+        
+        todo_items = python_object.get('todoitems', [])
+
+        for item in todo_items:
+            todo_list.append(MainTask.dict_to_task(item))
 
         return todo_list

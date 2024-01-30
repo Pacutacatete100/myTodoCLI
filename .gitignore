@@ -114,3 +114,8 @@ todo/secrets.txt
 .idea/inspectionProfiles/profiles_settings.xml
 todo/todolist.json
 todo/todolist.json
+todo/secrets2.txt
+todo/todolistdev.json
+.metals/metals.lock.db
+.metals/metals.mv.db
+.vscode/settings.json
