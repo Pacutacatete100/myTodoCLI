@@ -4,6 +4,7 @@ import ujson as json
 import os
 from colorama import Fore, Style
 from todo.DateProcessor import DateProcessor
+import uuid
 
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
@@ -12,7 +13,8 @@ with open(my_file) as f:
     location = f.readline().strip('\n')
 class MainTask(Task):
     
-    def __init__(self, name, due_date, number, classname, is_done_check='[ ]', subtasks=[]):
+    def __init__(self, name, due_date, number, classname, is_done_check='[ ]', subtasks=[], _id = str(uuid.uuid4())):
+        self.id = _id
         self.name = name
         self.due_date = due_date
         self.number = number
@@ -24,15 +26,26 @@ class MainTask(Task):
         return f' {str(self.number)}. {self.is_done_check} {self.name.title()}\n   Due: {self.due_date.title()}, Class: {self.classname.upper()} '
 
     def str_with_bar(self) -> str:
-        if len(self.subtasks )<=0:
-            return f' {str(self.number)}. {self.is_done_check} {self.name.title()}\n   Due: {self.due_date.title()}, Class: {self.classname.upper()}\n    ┗━━🞂 No Subtasks'
+    # Determine color for main task
+        if self.is_done_check == '[X]':
+            due_date_color = Fore.GREEN
         else:
-            return f' {str(self.number)}. {self.is_done_check} {self.name.title()}\n   Due: {self.due_date.title()}, Class: {self.classname.upper()}\n    ┗━━🞂 {self.subtask_progress_bar()}  {self.number_of_subs_complete()}/{len(self.subtasks)}'
+            if self.due_date == DateProcessor.today():
+                due_date_color = Fore.RED
+            elif self.due_date == DateProcessor.tomorrow():
+                due_date_color = Fore.YELLOW
+            else:
+                due_date_color = Style.RESET_ALL
+        if len(self.subtasks )<=0:
+            return f'{due_date_color} {str(self.number)}. {self.is_done_check} {self.name.title()}\n   Due: {self.due_date.title()}, Class: {self.classname.upper()}\n    ┗━━🞂 No Subtasks{Style.RESET_ALL}'
+        else:
+            return f'{due_date_color} {str(self.number)}. {self.is_done_check} {self.name.title()}\n   Due: {self.due_date.title()}, Class: {self.classname.upper()}\n    ┗━━🞂 {self.subtask_progress_bar()}  {self.number_of_subs_complete()}/{len(self.subtasks)}{Style.RESET_ALL}'
         
     def expanded_view(self) -> str:
         lines = []
 
         # Determine color for main task
+        # print(self.id)
         if self.is_done_check == '[X]':
             due_date_color = Fore.GREEN
         else:
@@ -80,12 +93,14 @@ class MainTask(Task):
             number=task_dict['number'],
             classname=task_dict['classname'],
             is_done_check=task_dict['is_done_check'],
-            subtasks=SubTask.dict_to_subtask(task_dict['subtasks'])
+            subtasks=SubTask.dict_to_subtask(task_dict['subtasks']),
+            _id=task_dict['id']
         )
     
     def to_dict(self):
         # Convert MainTask and its SubTasks to a dictionary
         return {
+            'id': str(self.id),
             'name': self.name,
             'due_date': self.due_date,
             'number': self.number,
@@ -148,7 +163,6 @@ class MainTask(Task):
             if not subtask.is_done_check == '[X]':
                 return False  # Return False if any subtask is not complete
         return True  # Return True if all subtasks are complete
-    #TODO: mark task as complete if all subtasks are completed
         
     def mark_as_completed(self):
         self.is_done_check = '[X]'
@@ -219,13 +233,13 @@ class MainTask(Task):
         with open(location) as json_file:
             data = json.load(json_file)
 
-        if number == "done":
-            # Remove all items that are marked as done
-            data['todoitems'] = [item for item in data['todoitems'] if item['is_done_check'] != '[X]']
-        else:
+        # if number == "done":
+        #     # Remove all items that are marked as done
+        #     data['todoitems'] = [item for item in data['todoitems'] if item['is_done_check'] != '[X]']
+        # else:
             # Remove a specific item by filtering
-            number = int(number)
-            data['todoitems'] = [item for item in data['todoitems'] if item['number'] != number]
+        number = int(number)
+        data['todoitems'] = [item for item in data['todoitems'] if item['number'] != number]
             # Adjust the numbering for remaining items
         for i, item in enumerate(data['todoitems'], start=1):
             item['number'] = i
@@ -233,5 +247,7 @@ class MainTask(Task):
         # Write the updated data back to the JSON file
         with open(location, 'w') as json_file:
             json.dump(data, json_file, indent=4)
+
+    
 
     

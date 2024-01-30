@@ -41,7 +41,7 @@ def get_sentence_dict(sentence: str):
         messages=[
             {
                 "role": "system",
-                "content": "You will be given a sentence that contains a To Do item, a date, and a class the item is for. Extract the data from the sentence and put it in the format outlined below:\n\n NAME OF ITEM\n DATE\n CLASS NAME\n\nOnly include the final values and omit any quotation marks, white spaces, new lines, commas, etc.\n\nThe following list is a list of the possible classes the item can be for:\nObject Oriented Programming, Concepts of Programming Languages, Science Fiction\n\nWhen reading the sentence, interpret what class the item may fit under and make the value of  \"CLASS NAME\" the name of that class. If the class name is found, omit it from the NAME OF ITEM value of the item. If the class name is not found, make the CLASS NAME value \"None\".\nIf the date has the name or part of the name of a month, interpret what number month it is and convert it into the \"MM-DD\" format.\nIf the date is the name of a weekday, \"today\", \"td\", \"tomorrow\", or \"tm\" leave it that way."
+                "content": "You will be given a sentence that contains a To Do item, a date, and a class the item is for. Extract the data from the sentence and put it in the format outlined below:\n\n NAME OF ITEM\n DATE\n CLASS NAME\n\nOnly include the final values and omit any quotation marks, white spaces, new lines, commas, etc.\n\nThe following list is a list of the possible classes the item can be for:\nSoftware Testing, Intro to Biological Anthropology , Content Management Systems\n\nWhen reading the sentence, interpret what class the item may fit under and make the value of  \"CLASS NAME\" the name of that class. If the class name is found, omit it from the NAME OF ITEM value of the item. If the class name is not found, make the CLASS NAME value \"None\".\nIf the date has the name or part of the name of a month, interpret what number month it is and convert it into the \"MM-DD\" format.\nIf the date is the name of a weekday, \"today\", \"td\", \"tomorrow\", or \"tm\" leave it that way."
             },
             {
                 "role": "user",
@@ -60,10 +60,16 @@ def async_classes():
     click.echo('')
     click.echo('\033[35;1m' + '-------- ASYNCHRONOUS CLASSES -----------\n')
 
-    click.echo('\033[35;1m' + 'OBJECT ORIENTED SOFTWARE DEVELOPMENT | OBJ')
+    click.echo('\033[35;1m' + 'SOFTWARE TESTING | TEST')
     click.echo('\033[35;1m' + ' - ASYNCHRONOUS')
     click.echo('\033[35;1m' + ' - CHRISTOPHER HIELD')
-    click.echo('\033[35;1m' + ' - LIVE LECTURES HELD MONDAY & WEDNESDAY 11:50 a.m. to 1:20 p.m.')
+    click.echo('\033[35;1m' + ' - LIVE LECTURES HELD MONDAY THURSDAY 5:45 p.m. - 9:00 p.m.')
+    click.echo('')
+
+    click.echo('\033[35;1m' + 'CONTENT MANAGEMENT SYSTEMS | CMS')
+    click.echo('\033[35;1m' + ' - ASYNCHRONOUS')
+    click.echo('\033[35;1m' + ' - MICHAEL CHASE')
+    click.echo('\033[35;1m' + ' - NO LIVE LECTURES')
 
     click.echo('\033[0m' + '')
 
@@ -73,55 +79,37 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('PROGRAMMING LANGUAGE CONCEPTS | LANG', fg='cyan'))
-        click.echo(click.style(' - 11:50 a.m. to 1:20 p.m.', fg='cyan'))
-        click.echo(click.style(' - CDM CENTER 218', fg='cyan'))
-        click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
-        click.echo(click.style(' - CORIN PITCHER', fg='cyan'))
+        click.echo(click.style('INTRO TO BIO ANTHROPOLOGY | ANT', fg='cyan'))
+        click.echo(click.style(' - 11:20 a.m. to 12:50 p.m.', fg='cyan'))
+        click.echo(click.style(' - ARTS & LETTERS 306', fg='cyan'))
+        click.echo(click.style(' - LINCOLN PARK', fg='cyan'))
+        click.echo(click.style(' - SARAH ADCOCK', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
 
     elif weekday == 'Tuesday':
-        click.echo('')
-        click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
-
-        click.echo(click.style('SCIENDE FICTION | SCI', fg='cyan'))
-        click.echo(click.style(' - 2:40 p.m. to 4:10 p.m.', fg='cyan'))
-        click.echo(click.style(' - ARTS AND LETTERS HALL 201', fg='cyan'))
-        click.echo(click.style(' - LINCOLN PARK CAMPUS', fg='cyan'))
-        click.echo(click.style(' - REBECCA JOHNS-TRISSLER', fg='cyan'))
-        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
-
+        click.echo(f'-------- NO IN-PERSON CLASSES -----------\n')
         async_classes()
 
     elif weekday == 'Wednesday':
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('PROGRAMMING LANGUAGE CONCEPTS | LANG', fg='cyan'))
-        click.echo(click.style(' - 11:50 a.m. to 1:20 p.m.', fg='cyan'))
-        click.echo(click.style(' - CDM CENTER 218', fg='cyan'))
-        click.echo(click.style(' - LOOP CAMPUS', fg='cyan'))
-        click.echo(click.style(' - CORIN PITCHER', fg='cyan'))
+        click.echo(click.style('INTRO TO BIO ANTHROPOLOGY | ANT', fg='cyan'))
+        click.echo(click.style(' - CLASS: 11:20 a.m. to 12:50 p.m.', fg='cyan'))
+        click.echo(click.style(' - ARTS & LETTERS 306', fg='cyan'))
+        click.echo(click.style(' - LAB: O\'CONELL CENTER 240', fg='cyan'))
+        click.echo(click.style(' - 1:00 p.m. to 2:30 p.m.', fg='cyan'))
+        click.echo(click.style(' - LINCOLN PARK', fg='cyan'))
+        click.echo(click.style(' - SARAH ADCOCK', fg='cyan'))
         click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
 
         async_classes()
 
     elif weekday == 'Thursday':
-        click.echo('')
-        click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
-
-        click.echo(click.style('SCIENDE FICTION | SCI', fg='cyan'))
-        click.echo(click.style(' - 2:40 p.m. to 4:10 p.m.', fg='cyan'))
-        click.echo(click.style(' - ARTS AND LETTERS HALL 201', fg='cyan'))
-        click.echo(click.style(' - LINCOLN PARK CAMPUS', fg='cyan'))
-        click.echo(click.style(' - REBECCA JOHNS-TRISSLER', fg='cyan'))
-        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
-
+        click.echo(f'-------- NO IN-PERSON CLASSES -----------\n')
         async_classes()
-
-
 
     elif weekday == 'Friday':
         click.echo(f'-------- NO IN-PERSON CLASSES -----------\n')
@@ -130,25 +118,17 @@ def print_day_schedule(weekday, day):
 def print_list():
 
     print('#####  DEV VERSION  #####')
-    new_list = TodoList()
+    # new_list = TodoList()
     print('')
     click.echo(f'----- TODAY IS: {current_date.strftime(date_format_string).upper()} -----\n')
     click.echo('--------------- TODO LIST ------------------\n')
-    
-    for ti in new_list:
-        if ti.is_done_check == '[X]':
-            click.echo(click.style(ti.str_with_bar(), fg='green') + '\n')
-        elif ti.due_date == DateProcessor.today() and ti.is_done_check == "[ ]":
-            click.echo(click.style(ti.str_with_bar(), fg='red') + '\n')
-        elif ti.due_date == DateProcessor.tomorrow() and ti.is_done_check == "[ ]":
-            click.echo(click.style(ti.str_with_bar(), fg='yellow') + '\n')
-        else:
-            print(ti.str_with_bar(),'\n')
+
+    for ti in todo_list:
+        click.echo(ti.str_with_bar() + '\n')
     
     print_day_schedule(current_weekday, 'today')
     click.echo('----------------------------------------\n')
-    new_list.main_progress_bar()
-    #TODO: change color in MainTask.py
+    todo_list.main_progress_bar()
 
 # CLI Commands
 @click.group('todo')
@@ -228,6 +208,14 @@ def subundone(item, sub):
     sub_number = int(sub)
     todo_list.sub_undone(item_number, sub_number)
     print_list()
+
+@main.command('removesub')
+@click.option('--item', prompt='What number item do you want to remove a subtask from')
+@click.option('--sub', prompt='What number sub task do you want to remove')
+def removesub(item, sub):
+    item_number = int(item)
+    todo_list.remove_sub(item_number, sub)
+    click.echo(todo_list[item_number-1].expanded_view())
 
 @main.command('done')
 @click.option('--num', prompt='Number of item you want to mark as completed or "all" to mark all items as completed')
@@ -319,8 +307,8 @@ def edit(num, part, edited):
 def editsub(item, sub, part, edited):
     item_number = int(item)
     sub_number = int(sub)
-    todo_list[item_number - 1].subtasks[sub_number - 1].edit(part, edited)
-    print_list()
+    todo_list.edit_sub(item_number, sub_number, part, edited)
+    click.echo(todo_list[item_number-1].expanded_view())
 
 
 @main.command('classes')

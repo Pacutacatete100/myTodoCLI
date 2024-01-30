@@ -4,9 +4,6 @@ import os
 from types import SimpleNamespace
 from todo.MainTask import MainTask
 
-
-# ┖╶╶╶>
-
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'secrets2.txt')
 with open(my_file) as f:

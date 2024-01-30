@@ -1,6 +1,7 @@
 from todo.Task import Task
 import ujson as json
 import os
+import uuid
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'secrets2.txt')
@@ -9,7 +10,8 @@ with open(my_file) as f:
 class SubTask(Task):
     # TODO: Complete implementation of subtask
 
-    def __init__(self, name, due_date, number, is_done_check='[ ]'):
+    def __init__(self, name, due_date, number, is_done_check='[ ]', id=str(uuid.uuid4())):
+        self.id = id
         self.name = name
         self.due_date = due_date
         self.number = number
@@ -20,6 +22,7 @@ class SubTask(Task):
     
     def to_dict(self):
         return {
+            'id': str(self.id),
             'name': self.name,
             'due_date': self.due_date,
             'number': self.number,
@@ -76,16 +79,56 @@ class SubTask(Task):
         with open(location, 'w') as f:
             json.dump(data, f, indent=4)
 
-    def edit_name(self, edited_name):
-        pass
+    def edit_name(self, edited_name, item_number):
+        self.name = edited_name
 
-    def edit_date(self, edited_date):
-        pass
+        with open(location) as json_file:
+            data = json.load(json_file)
 
-    def add_to_json(self):
-        pass
+        for item in data['todoitems']:
+            if item['number'] == item_number:
+                for sub in item['subtasks']:
+                    if sub['number'] == self.number:
+                        sub['name'] = edited_name
 
-    def remove_from_json(self):
-        pass
+        with open(location, 'w') as f:
+            json.dump(data, f, indent=4)
+
+    def edit_date(self, edited_date, item_number):
+        self.due_date = edited_date
+
+        with open(location) as json_file:
+            data = json.load(json_file)
+
+        for item in data['todoitems']:
+            if item['number'] == item_number:
+                for sub in item['subtasks']:
+                    if sub['number'] == self.number:
+                        sub['due_date'] = edited_date
+
+        with open(location, 'w') as f:
+            json.dump(data, f, indent=4)
+
+    def remove_sub_from_json(self, item, sub):
+        with open(location) as json_file:
+            data = json.load(json_file)
+
+        for task in data['todoitems']:
+            if task['number'] == item:
+                if sub == "done":
+                    # Remove all subtasks that are marked as done
+                    task['subtasks'] = [subtask for subtask in task['subtasks'] if subtask['is_done_check'] != '[X]']
+                else:
+                    # Remove a specific subtask by filtering
+                    sub = int(sub)
+                    task['subtasks'] = [subtask for subtask in task['subtasks'] if subtask['number'] != sub]
+
+                # Adjust the numbering for remaining subtasks
+                for i, subtask in enumerate(task['subtasks'], start=1):
+                    subtask['number'] = i
+
+        # Write the updated data back to the JSON file
+        with open(location, 'w') as json_file:
+            json.dump(data, json_file, indent=4)
 
     
