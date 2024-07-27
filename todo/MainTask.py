@@ -204,20 +204,20 @@ class MainTask(Task):
             json.dump(data, f, indent=4)
 
     def edit_date(self, edited_date):
-        self.name = edited_date
+        self.due_date = edited_date
 
         with open(location) as json_file:
             data = json.load(json_file)
         
         for task in data['todoitems']:
             if task['number'] == self.number:
-                task['due_date'] = edited_date
+                task['due_date'] = DateProcessor.process_date(edited_date)
         
         with open(location, 'w') as f:
             json.dump(data, f, indent=4)
 
     def edit_classname(self, edited_classname):
-        self.name = edited_classname
+        self.classname = edited_classname
 
         with open(location) as json_file:
             data = json.load(json_file)

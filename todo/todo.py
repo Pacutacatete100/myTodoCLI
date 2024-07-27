@@ -3,13 +3,13 @@ import click
 import datetime
 import calendar
 import dateparser
-import openai
-from langchain.llms import OpenAI
+# from langchain.llms import OpenAI
 
 from todo.MainTask import MainTask
 from todo.SubTask import SubTask
 from todo.TaskController import TodoList
 from todo.DateProcessor import DateProcessor
+from todo.Inference import Inference
 
 # secret info
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
@@ -17,9 +17,6 @@ my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
 with open(my_file) as f:
     lines = f.readlines()
     location = lines[0].strip('\n')
-    gpt_key = lines[1].strip('\n')
-
-llm = OpenAI(openai_api_key=gpt_key)
 
 todo_list = TodoList() #main todo list
 
@@ -33,43 +30,18 @@ weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 
 days_in_month = calendar.monthrange(current_date.year, current_date.month)
 current_month = current_date.strftime('%m')
 
-# task item inference
-def get_sentence_dict(sentence: str):
-
-    response = openai.ChatCompletion.create(
-        model="gpt-4-1106-preview",
-        messages=[
-            {
-                "role": "system",
-                "content": "You will be given a sentence that contains a To Do item, a date, and a class the item is for. Extract the data from the sentence and put it in the format outlined below:\n\n NAME OF ITEM\n DATE\n CLASS NAME\n\nOnly include the final values and omit any quotation marks, white spaces, new lines, commas, etc.\n\nThe following list is a list of the possible classes the item can be for:\nSoftware Testing, Intro to Biological Anthropology , Content Management Systems\n\nWhen reading the sentence, interpret what class the item may fit under and make the value of  \"CLASS NAME\" the name of that class. If the class name is found, omit it from the NAME OF ITEM value of the item. If the class name is not found, make the CLASS NAME value \"None\".\nIf the date has the name or part of the name of a month, interpret what number month it is and convert it into the \"MM-DD\" format.\nIf the date is the name of a weekday, \"today\", \"td\", \"tomorrow\", or \"tm\" leave it that way."
-            },
-            {
-                "role": "user",
-                "content": sentence
-            }
-        ],
-    temperature=0,
-    max_tokens=256,
-    top_p=1,
-    frequency_penalty=0,
-    presence_penalty=0
-)
-    return response['choices'][0]['message']['content']
+inferece = Inference()
 
 def async_classes():
     click.echo('')
     click.echo('\033[35;1m' + '-------- ASYNCHRONOUS CLASSES -----------\n')
 
-    click.echo('\033[35;1m' + 'SOFTWARE TESTING | TEST')
+    click.echo('\033[35;1m' + 'COMPILER DESIGN | COMP')
     click.echo('\033[35;1m' + ' - ASYNCHRONOUS')
-    click.echo('\033[35;1m' + ' - CHRISTOPHER HIELD')
-    click.echo('\033[35;1m' + ' - LIVE LECTURES HELD MONDAY THURSDAY 5:45 p.m. - 9:00 p.m.')
+    click.echo('\033[35;1m' + ' - JOSEPH PHILLIPS')
+    click.echo('\033[35;1m' + ' - NO LIVE LECTURES')
     click.echo('')
 
-    click.echo('\033[35;1m' + 'CONTENT MANAGEMENT SYSTEMS | CMS')
-    click.echo('\033[35;1m' + ' - ASYNCHRONOUS')
-    click.echo('\033[35;1m' + ' - MICHAEL CHASE')
-    click.echo('\033[35;1m' + ' - NO LIVE LECTURES')
 
     click.echo('\033[0m' + '')
 
@@ -79,12 +51,17 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('INTRO TO BIO ANTHROPOLOGY | ANT', fg='cyan'))
-        click.echo(click.style(' - 11:20 a.m. to 12:50 p.m.', fg='cyan'))
-        click.echo(click.style(' - ARTS & LETTERS 306', fg='cyan'))
-        click.echo(click.style(' - LINCOLN PARK', fg='cyan'))
-        click.echo(click.style(' - SARAH ADCOCK', fg='cyan'))
-        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
+        click.echo(click.style('HISTORY OF WESTERN SCIENCE | HIST', fg='cyan'))
+        click.echo(click.style(' - 9:40 a.m. to 11:10 p.m.', fg='cyan'))
+        click.echo(click.style(' - ASYNC UNTIL MAY 1st', fg='cyan'))
+        click.echo(click.style(' - CHRISTOPHER MARTINUZZI', fg='cyan'))
+        click.echo(click.style(' - ONLINE\n', fg='cyan'))
+        click.echo('')
+
+        click.echo(click.style('OBJECT ORIENTED ENTERPRISE APPLICATION DEVELOPMENT | ENTER', fg='cyan'))
+        click.echo(click.style(' - 5:45 p.m. to 9:00 p.m.', fg='cyan'))
+        click.echo(click.style(' - ONLINE LECTURE', fg='cyan'))
+        click.echo(click.style(' - KEN YU', fg='cyan'))
 
         async_classes()
 
@@ -96,14 +73,12 @@ def print_day_schedule(weekday, day):
         click.echo('')
         click.echo(click.style(f'-------- {day.upper()}S CLASSES -----------\n', fg='cyan'))
 
-        click.echo(click.style('INTRO TO BIO ANTHROPOLOGY | ANT', fg='cyan'))
-        click.echo(click.style(' - CLASS: 11:20 a.m. to 12:50 p.m.', fg='cyan'))
-        click.echo(click.style(' - ARTS & LETTERS 306', fg='cyan'))
-        click.echo(click.style(' - LAB: O\'CONELL CENTER 240', fg='cyan'))
-        click.echo(click.style(' - 1:00 p.m. to 2:30 p.m.', fg='cyan'))
-        click.echo(click.style(' - LINCOLN PARK', fg='cyan'))
-        click.echo(click.style(' - SARAH ADCOCK', fg='cyan'))
-        click.echo(click.style(' - IN-PERSON\n', fg='cyan'))
+        click.echo(click.style('HISTORY OF WESTERN SCIENCE | HIST', fg='cyan'))
+        click.echo(click.style(' - 9:40 a.m. to 11:10 p.m.', fg='cyan'))
+        click.echo(click.style(' - ASYNC UNTIL MAY 1st', fg='cyan'))
+        click.echo(click.style(' - CHRISTOPHER MARTINUZZI', fg='cyan'))
+        click.echo(click.style(' - ONLINE\n', fg='cyan'))
+        click.echo('')
 
         async_classes()
 
@@ -118,7 +93,6 @@ def print_day_schedule(weekday, day):
 def print_list():
 
     print('#####  DEV VERSION  #####')
-    # new_list = TodoList()
     print('')
     click.echo(f'----- TODAY IS: {current_date.strftime(date_format_string).upper()} -----\n')
     click.echo('--------------- TODO LIST ------------------\n')
@@ -154,7 +128,7 @@ def add(m):
     else:  # inference mode
         # TODO: Exception handling when generated format not correct
         item = click.prompt('Enter the new Item')
-        generated_items = get_sentence_dict(item).splitlines()
+        generated_items = inferece.get_main_task_data(item).split('\n')
         item, due, classname = generated_items
 
     processed_due_date = DateProcessor.process_date(due)
@@ -175,7 +149,9 @@ def addsub(num, m):
         item = click.prompt('Enter the new Item')
         due = click.prompt('Due Date in mm-dd format')
     else:
-        print('AI not yet supported')
+        item = click.prompt('Enter the new Item')
+        generated_items = inferece.get_subtask_data(item).split('\n')
+        item, due = generated_items
 
     processed_due_date = DateProcessor.process_date(due)
 
@@ -296,13 +272,16 @@ def tomorrow():
 @click.option('--edited', prompt='enter the edited part')
 def edit(num, part, edited):
     number = int(num)
+    valid_parts = ('item', 'date', 'class')
+    #TODO: if or while part is not in valid parts, ask for user input until it is
+    #          figure out click way to ask for input instead of just standard py        
     todo_list.edit(number, part, edited)
     print_list()
 
 @main.command('editsub')
 @click.option('--item', prompt='the number of the item you want to edit')
 @click.option('--sub', prompt='the number of the subtask you want to edit')
-@click.option('--part', prompt='enter what part you want to edit (item, date)')
+@click.option('--part', prompt='enter what part you want to edsit (item, date)')
 @click.option('--edited', prompt='enter the edited part')
 def editsub(item, sub, part, edited):
     item_number = int(item)
