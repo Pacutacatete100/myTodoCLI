@@ -1,22 +1,13 @@
-import os
 import click
 import datetime
 import calendar
 import dateparser
-# from langchain.llms import OpenAI
 
 from todo.MainTask import MainTask
 from todo.SubTask import SubTask
 from todo.TaskController import TodoList
 from todo.DateProcessor import DateProcessor
 from todo.Inference import Inference
-
-# secret info
-THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-my_file = os.path.join(THIS_FOLDER, 'secrets.txt')
-with open(my_file) as f:
-    lines = f.readlines()
-    location = lines[0].strip('\n')
 
 todo_list = TodoList() #main todo list
 
@@ -41,7 +32,6 @@ def async_classes():
     click.echo('\033[35;1m' + ' - JOSEPH PHILLIPS')
     click.echo('\033[35;1m' + ' - NO LIVE LECTURES')
     click.echo('')
-
 
     click.echo('\033[0m' + '')
 
@@ -267,23 +257,41 @@ def tomorrow():
 
 
 @main.command('edit')
-@click.option('--num', prompt='the number of the item you want to edit')
-@click.option('--part', prompt='enter what part you want to edit (item, date, class)')
-@click.option('--edited', prompt='enter the edited part')
-def edit(num, part, edited):
-    number = int(num)
+def edit():
+    num = click.prompt('the number of the item you want to edit')
+    
     valid_parts = ('item', 'date', 'class')
-    #TODO: if or while part is not in valid parts, ask for user input until it is
-    #          figure out click way to ask for input instead of just standard py        
+    def validate_part(part):
+        if part not in valid_parts:
+            raise click.BadParameter(f'part must be "item", "date", or "class"')
+        return part
+
+    number = int(num)
+    while True:
+        part = click.prompt('enter what part you want to edit (item, date, class)', type=str, value_proc=validate_part)
+        if part:
+            break
+
+    edited = click.prompt('enter the edited part')
     todo_list.edit(number, part, edited)
     print_list()
 
 @main.command('editsub')
-@click.option('--item', prompt='the number of the item you want to edit')
-@click.option('--sub', prompt='the number of the subtask you want to edit')
-@click.option('--part', prompt='enter what part you want to edsit (item, date)')
-@click.option('--edited', prompt='enter the edited part')
 def editsub(item, sub, part, edited):
+    item = click.prompt('the number of the item you want to edit')
+    sub = click.prompt('the number of the subtask you want to edit')
+    valid_parts = ('item', 'date')
+    def validate_part(part):
+        if part not in valid_parts:
+            raise click.BadParameter(f'part must be "item" or "date"')
+        return part
+    
+    while True:
+        part = click.prompt('enter what part you want to edit (item, date)', type=str, value_proc=validate_part)
+        if part:
+            break
+    edited = click.prompt('enter the edited part')
+    
     item_number = int(item)
     sub_number = int(sub)
     todo_list.edit_sub(item_number, sub_number, part, edited)
