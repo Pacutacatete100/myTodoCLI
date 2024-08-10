@@ -43,9 +43,7 @@ class MainTask(Task):
         
     def expanded_view(self) -> str:
         lines = []
-
-        # Determine color for main task
-        # print(self.id)
+        
         if self.is_done_check == '[X]':
             due_date_color = Fore.GREEN
         else:
@@ -112,9 +110,10 @@ class MainTask(Task):
     def add_to_json(self, location):
         with open(location) as json_file:
             data = json.load(json_file)
-            temp = data['todoitems']
-            item_dict = self.__dict__
-            temp.append(item_dict)
+
+        temp = data['todoitems']
+        item_dict = self.__dict__
+        temp.append(item_dict)
 
         with open(location, 'w') as f:
             json.dump(data, f, indent=4)

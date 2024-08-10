@@ -8,8 +8,11 @@ from todo.SubTask import SubTask
 from todo.TaskController import TodoList
 from todo.DateProcessor import DateProcessor
 from todo.Inference import Inference
+from todo.CourseController import CourseList
+from todo.Course import Course
 
 todo_list = TodoList() #main todo list
+courses_list = CourseList() #main course list
 
 # date processing variables
 current_date = datetime.date.today()
@@ -31,6 +34,13 @@ def async_classes():
     click.echo('\033[35;1m' + ' - ASYNCHRONOUS')
     click.echo('\033[35;1m' + ' - JOSEPH PHILLIPS')
     click.echo('\033[35;1m' + ' - NO LIVE LECTURES')
+    click.echo('')
+
+    click.echo(click.style('HISTORY OF WESTERN SCIENCE | HIST', fg='cyan'))
+    click.echo(click.style(' - 9:40 a.m. to 11:10 p.m.', fg='cyan'))
+    click.echo(click.style(' - ASYNC UNTIL MAY 1st', fg='cyan'))
+    click.echo(click.style(' - CHRISTOPHER MARTINUZZI', fg='cyan'))
+    click.echo(click.style(' - ONLINE\n', fg='cyan'))
     click.echo('')
 
     click.echo('\033[0m' + '')
@@ -104,6 +114,11 @@ def main():
 def list_():
     print_list()
 
+    
+@main.command('courses')
+def courses():
+    for c in courses_list:
+        click.echo(c)
 
 @main.command('add')
 @click.option('-m', is_flag=True)
@@ -309,6 +324,21 @@ def classes(day):
 @main.command('async')
 def async_classes_():
     async_classes()
+
+@main.command('addcourse')
+def addcourse():
+    course_name = click.prompt('Enter the new Course Name')
+    course_abbrev = click.prompt('Enter the Course Abbreviation')
+    course_time = click.prompt('Enter the Course Time')
+    course_days = click.prompt('Enter the Course Week Days')
+    course_location = click.prompt('Enter the Course Location')
+    course_prof = click.prompt('Enter the Course Professor')
+    course_online = click.prompt('Is the Course Online?')
+
+    course = Course(course_name.upper(), course_abbrev.upper(), course_time, course_days.upper(), course_location.upper(), course_prof.upper(), course_online)
+    courses_list.add_course(course)
+    for c in courses_list:
+        click.echo(c)
 
 
 if __name__ == '__main__':
